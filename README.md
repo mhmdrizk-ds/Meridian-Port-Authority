@@ -22,6 +22,9 @@ prompts/        Person 1 — reusable prompt templates
 mcp_server/     Person 2 — server core, tool specs, protocol wiring
 agent/          Person 3 — client, handshake, elicitation, sampling,
                             progress display, demo scenarios
+
+memory/         Person 1 — short-term buffer, scratchpad, promote-or-drop
+                            router, episodic + semantic stores, consolidation                           
 ```
 
 ## Database
@@ -120,6 +123,28 @@ python -m mcp_server.server
 ```
 
 Expects `Database/meridian_port.db` to already exist (run `python Database/init_db.py` first if not). It's a stdio server: a client subprocesses this command and exchanges newline-delimited JSON-RPC 2.0 over stdin/stdout.
+
+
+## Memory Architecture
+
+See [`memory/README.md`](memory/README.md) for the full write-up: the real
+problem (context lost within and across shifts), the four-layer design
+(short-term buffer / scratchpad / episodic / semantic), a real conflict
+resolution example grounded in `Database/seed.sql`, a real expiration
+example, and reproducible test commands.
+
+Quick summary:
+
+| Layer | File | Guarantee |
+|---|---|---|
+| Short-term buffer | `memory/short_term.py` | Rolling window, capacity-bounded, evictions handed to the router |
+| Scratchpad | `memory/scratchpad.py` | Never touched by buffer pruning — verified in `tests/test_pruning.py` |
+| Promote-or-drop router | `memory/router.py` | Logs reasoning per decision; structurally cannot write to semantic memory |
+| Episodic store | `memory/episodic_store.py` | Append-only, timestamped; only the router writes to it |
+| Consolidation | `memory/consolidation.py` + `memory/scheduler.py` | Genuinely periodic pass; handles updates, versioning, expiration, and conflict resolution — never runs at write time |
+| Semantic store | `memory/semantic_store.py` | Versioned, expirable facts; only consolidation writes to it |
+| Public API | `memory/api.py` | `MemorySystem` — the only surface `agent/` should import from |
+
 
 ## Agent / Client
 
