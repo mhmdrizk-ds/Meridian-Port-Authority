@@ -44,7 +44,7 @@ Fields that used to be free text (`requested_by`, `approved_by`, `officer_name`,
 - seed.sql: Inserts sample data, including normal and edge-case scenarios.
 - init_db.py: Initializes the database by creating the schema and loading seed data.
 - meridian_port.db: The generated SQLite database file.
-- ERD.png: Entity Relationship Diagram illustrating the database structure.
+- ERD.mmd: Entity Relationship Diagram (Mermaid source — renders automatically on GitHub).
 - test_relationships.py: Verifies that foreign key relationships between tables work correctly.
 
 ### Database Features
@@ -69,6 +69,8 @@ The system provides reusable prompt templates to guide LLM responses:
 - Release Justification Prompt: Generates structured explanations for container release decisions.
 - Incident Report Prompt: Creates organized incident reports for port operation issues.
 - Risk Assessment Prompt: Evaluates container risks and identifies required approvals.
+
+Each prompt declares required arguments (e.g. `container_number`, `requested_by`) and is filled with real data pulled from the database at call time — so two calls for different containers return two different, factually-grounded prompts.
 
 ## MCP Server
 
