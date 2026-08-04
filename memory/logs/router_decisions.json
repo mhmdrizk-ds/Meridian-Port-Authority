@@ -1,0 +1,154 @@
+[
+  {
+    "message_preview": "Dispatcher Dana Ruiz logging in, badge BADGE-D01",
+    "role": "user",
+    "age": 5,
+    "decision": "promote",
+    "reasoning": "Default: below aging threshold and not clearly transient \u2014 retain for episodic review",
+    "decided_at": 1785883221.974717
+  },
+  {
+    "message_preview": "Session authenticated as dispatcher",
+    "role": "agent",
+    "age": 5,
+    "decision": "promote",
+    "reasoning": "Default: below aging threshold and not clearly transient \u2014 retain for episodic review",
+    "decided_at": 1785883221.974717
+  },
+  {
+    "message_preview": "Status on MSKU100004?",
+    "role": "user",
+    "age": 5,
+    "decision": "promote",
+    "reasoning": "Default: below aging threshold and not clearly transient \u2014 retain for episodic review",
+    "decided_at": 1785883221.974717
+  },
+  {
+    "message_preview": "MSKU100004 is hazmat and has an active customs hold: Hazardous materials inspect",
+    "role": "agent",
+    "age": 5,
+    "decision": "promote",
+    "reasoning": "Contains operationally critical terms: ['hazmat', 'customs', 'hold']",
+    "decided_at": 1785883221.974717
+  },
+  {
+    "message_preview": "Who's the carrier for MSKU100004?",
+    "role": "user",
+    "age": 5,
+    "decision": "promote",
+    "reasoning": "Default: below aging threshold and not clearly transient \u2014 retain for episodic review",
+    "decided_at": 1785883221.974717
+  },
+  {
+    "message_preview": "Safe Transport carrier status: Suspended",
+    "role": "agent",
+    "age": 5,
+    "decision": "promote",
+    "reasoning": "Contains operationally critical terms: ['suspended']",
+    "decided_at": 1785883221.974717
+  },
+  {
+    "message_preview": "What time does Ever Glory depart?",
+    "role": "user",
+    "age": 5,
+    "decision": "forget",
+    "reasoning": "Time-bound query with no lasting operational value (e.g. ETA/status-right-now question)",
+    "decided_at": 1785883221.974717
+  },
+  {
+    "message_preview": "Ever Glory departure not yet scheduled",
+    "role": "agent",
+    "age": 5,
+    "decision": "promote",
+    "reasoning": "Default: below aging threshold and not clearly transient \u2014 retain for episodic review",
+    "decided_at": 1785883221.974717
+  },
+  {
+    "message_preview": "Can we release MSKU100003 instead?",
+    "role": "user",
+    "age": 5,
+    "decision": "promote",
+    "reasoning": "Contains operationally critical terms: ['release']",
+    "decided_at": 1785883221.974717
+  },
+  {
+    "message_preview": "MSKU100003 customs hold: Active \u2014 Missing customs documents",
+    "role": "agent",
+    "age": 5,
+    "decision": "promote",
+    "reasoning": "Contains operationally critical terms: ['customs', 'hold']",
+    "decided_at": 1785883221.974717
+  },
+  {
+    "message_preview": "Any update from customs officer Sam Okafor?",
+    "role": "user",
+    "age": 5,
+    "decision": "promote",
+    "reasoning": "Contains operationally critical terms: ['customs']",
+    "decided_at": 1785883221.974717
+  },
+  {
+    "message_preview": "MSKU100003 customs hold: Released \u2014 documents verified by Sam Okafor",
+    "role": "agent",
+    "age": 5,
+    "decision": "promote",
+    "reasoning": "Contains operationally critical terms: ['customs', 'hold', 'release']",
+    "decided_at": 1785883221.974717
+  },
+  {
+    "message_preview": "Good, request release for MSKU100003",
+    "role": "user",
+    "age": 5,
+    "decision": "promote",
+    "reasoning": "Contains operationally critical terms: ['release']",
+    "decided_at": 1785883221.974717
+  },
+  {
+    "message_preview": "Release order for MSKU100003 filed: Pending supervisor approval",
+    "role": "agent",
+    "age": 5,
+    "decision": "promote",
+    "reasoning": "Contains operationally critical terms: ['supervisor', 'release']",
+    "decided_at": 1785883221.974717
+  },
+  {
+    "message_preview": "Priya Nair, please approve MSKU100003",
+    "role": "user",
+    "age": 5,
+    "decision": "promote",
+    "reasoning": "Default: below aging threshold and not clearly transient \u2014 retain for episodic review",
+    "decided_at": 1785883221.974717
+  },
+  {
+    "message_preview": "MSKU100003 release order: Approved by Priya Nair",
+    "role": "agent",
+    "age": 5,
+    "decision": "promote",
+    "reasoning": "Contains operationally critical terms: ['approved', 'release']",
+    "decided_at": 1785883221.974717
+  },
+  {
+    "message_preview": "What about Fast Logistics \u2014 still active?",
+    "role": "user",
+    "age": 5,
+    "decision": "promote",
+    "reasoning": "Default: below aging threshold and not clearly transient \u2014 retain for episodic review",
+    "decided_at": 1785883221.974717
+  },
+  {
+    "message_preview": "Fast Logistics carrier status: Active, license LIC001",
+    "role": "agent",
+    "age": 5,
+    "decision": "promote",
+    "reasoning": "Default: below aging threshold and not clearly transient \u2014 retain for episodic review",
+    "decided_at": 1785883221.974717
+  },
+  {
+    "message_preview": "Any hazmat concerns on MSKU100002?",
+    "role": "user",
+    "age": 5,
+    "decision": "promote",
+    "reasoning": "Contains operationally critical terms: ['hazmat']",
+    "decided_at": 1785883221.974717
+  }
+]
