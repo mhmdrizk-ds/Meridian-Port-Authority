@@ -1,0 +1,64 @@
+[
+  {
+    "action": "created",
+    "topic": "MSKU100004",
+    "statements": [
+      "Status on MSKU100004?",
+      "MSKU100004 is hazmat and has an active customs hold: Hazardous materials inspection",
+      "Who's the carrier for MSKU100004?"
+    ],
+    "at": 1785883221.974717
+  },
+  {
+    "action": "created",
+    "topic": "Safe Transport",
+    "statements": [
+      "Safe Transport carrier status: Suspended"
+    ],
+    "at": 1785883221.974717
+  },
+  {
+    "action": "created",
+    "topic": "MSKU100003",
+    "statements": [
+      "Can we release MSKU100003 instead?",
+      "MSKU100003 customs hold: Active \u2014 Missing customs documents",
+      "MSKU100003 customs hold: Released \u2014 documents verified by Sam Okafor",
+      "Good, request release for MSKU100003",
+      "Release order for MSKU100003 filed: Pending supervisor approval",
+      "Priya Nair, please approve MSKU100003",
+      "MSKU100003 release order: Approved by Priya Nair"
+    ],
+    "at": 1785883221.974717
+  },
+  {
+    "action": "created",
+    "topic": "Fast Logistics",
+    "statements": [
+      "What about Fast Logistics \u2014 still active?",
+      "Fast Logistics carrier status: Active, license LIC001"
+    ],
+    "at": 1785883221.974717
+  },
+  {
+    "action": "created",
+    "topic": "MSKU100002",
+    "statements": [
+      "Any hazmat concerns on MSKU100002?"
+    ],
+    "at": 1785883221.974717
+  },
+  {
+    "action": "run_summary",
+    "ran_at": 1785883221.974717,
+    "episodes_processed": 18,
+    "topics_touched": [
+      "MSKU100004",
+      "Safe Transport",
+      "MSKU100003",
+      "Fast Logistics",
+      "MSKU100002"
+    ],
+    "facts_expired": []
+  }
+]
