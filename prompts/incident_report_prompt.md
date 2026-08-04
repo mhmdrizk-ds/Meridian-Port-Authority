@@ -3,12 +3,16 @@
 ## Purpose
 Generate a structured incident report for port operations.
 
+## Reported Incident
+- Container: {{container_number}} ({{container_type}})
+- Description: {{description}}
+
 ## Instructions
 
 Analyze the incident details and include:
 
 - Incident description.
-- Affected container information.
+- Affected container information: status {{container_status}}, hazmat {{hazmat_status}}, customs {{customs_hold_status}}.
 - Risk level.
 - Possible cause.
 - Recommended actions.

@@ -90,8 +90,11 @@ class MeridianAgentSession:
     def list_prompts(self):
         return self.client.request("prompts/list")
 
-    def get_prompt(self, name):
-        return self.client.request("prompts/get", {"name": name})
+    def get_prompt(self, name, arguments=None):
+        payload = {"name": name}
+        if arguments:
+            payload["arguments"] = arguments
+        return self.client.request("prompts/get", payload)
 
     def close(self):
         self.client.close()

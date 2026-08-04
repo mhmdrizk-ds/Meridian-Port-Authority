@@ -154,7 +154,7 @@ def dispatch(conn, session: Session, msg: dict):
     if method == "prompts/list":
         return prompts.list_prompts()
     if method == "prompts/get":
-        return prompts.get_prompt(params.get("name"))
+        return prompts.get_prompt(params.get("name"), params.get("arguments"))
     if method == "ping":
         return {}
 

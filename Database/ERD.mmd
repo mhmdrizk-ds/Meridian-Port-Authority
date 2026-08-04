@@ -1,0 +1,102 @@
+erDiagram
+    STAFF {
+        integer id PK
+        text name
+        text role
+        text badge_code UK
+        boolean active
+    }
+
+    VESSELS {
+        integer id PK
+        text vessel_name
+        text imo_number UK
+        date arrival_date
+        date departure_date
+        text status
+    }
+
+    CONSIGNEES {
+        integer id PK
+        text consignee_name
+        text company_name
+        text contact_phone
+        text email UK
+        text address
+    }
+
+    TRUCKING_COMPANIES {
+        integer id PK
+        text company_name
+        text license_number UK
+        text status
+        text contact_phone
+    }
+
+    CONTAINERS {
+        integer id PK
+        text container_number UK
+        integer vessel_id FK
+        integer consignee_id FK
+        integer carrier_id FK
+        text container_type
+        boolean hazmat
+        text status
+        date arrival_date
+    }
+
+    CUSTOMS_HOLDS {
+        integer id PK
+        integer container_id FK
+        text hold_reason
+        text hold_status
+        integer officer_id FK
+        datetime created_at
+        datetime released_at
+    }
+
+    RELEASE_ORDERS {
+        integer id PK
+        integer container_id FK
+        integer requested_by FK
+        integer approved_by FK
+        text release_status
+        text release_reason
+        datetime created_at
+        datetime released_at
+    }
+
+    GATE_TRANSACTIONS {
+        integer id PK
+        integer container_id FK
+        integer carrier_id FK
+        text transaction_type
+        datetime transaction_time
+        integer processed_by FK
+    }
+
+    VESSEL_MANIFEST_ITEMS {
+        integer id PK
+        integer vessel_id FK
+        integer container_id FK
+        text manifest_status
+        text notes
+    }
+
+    VESSELS ||--o{ CONTAINERS : "arrives on"
+    CONSIGNEES ||--o{ CONTAINERS : "receives"
+    TRUCKING_COMPANIES ||--o{ CONTAINERS : "hauls"
+
+    CONTAINERS ||--o{ CUSTOMS_HOLDS : "may have"
+    STAFF ||--o{ CUSTOMS_HOLDS : "placed by (officer_id)"
+
+    CONTAINERS ||--o{ RELEASE_ORDERS : "released via"
+    STAFF ||--o{ RELEASE_ORDERS : "requested by"
+    STAFF ||--o{ RELEASE_ORDERS : "approved by"
+
+    CONTAINERS ||--o{ GATE_TRANSACTIONS : "gated in/out"
+    TRUCKING_COMPANIES ||--o{ GATE_TRANSACTIONS : "carrier of"
+    STAFF ||--o{ GATE_TRANSACTIONS : "processed by"
+
+    VESSELS ||--o{ VESSEL_MANIFEST_ITEMS : "manifests"
+    CONTAINERS ||--o{ VESSEL_MANIFEST_ITEMS : "listed on"

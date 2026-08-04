@@ -40,9 +40,13 @@ def scenario_capability_negotiation(session, data):
     for p in prompts["prompts"]:
         print(f"  - {p['name']}: {p['title']}")
 
-    print("\n== prompts/get risk_assessment ==")
-    prompt = session.get_prompt("risk_assessment")
-    print(" ", prompt["messages"][0]["content"]["text"].splitlines()[0], "...")
+    print("\n== prompts/get risk_assessment (MSKU100004 — hazmat + active hold) ==")
+    prompt = session.get_prompt("risk_assessment", {"container_number": "MSKU100004"})
+    text = prompt["messages"][0]["content"]["text"]
+    print(" ", text.splitlines()[0], "...")
+    for line in text.splitlines():
+        if "Hazmat status" in line or "Customs hold status" in line:
+            print(" ", line)
 
 
 def scenario_defensive_and_authorization(session, data):

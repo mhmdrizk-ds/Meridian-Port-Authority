@@ -3,14 +3,17 @@
 ## Purpose
 Analyze container information and evaluate the risk level before performing any operation.
 
+## Container Under Review
+- Container: {{container_number}} ({{container_type}})
+
 ## Instructions
 
 Review the following information:
 
-- Container status.
-- Hazmat status.
-- Customs hold status.
-- Carrier status.
+- Container status: {{container_status}}
+- Hazmat status: {{hazmat_status}}
+- Customs hold status: {{customs_hold_status}}
+- Carrier status: {{carrier_name}} — {{carrier_status}}
 - Previous transactions.
 
 Provide:
