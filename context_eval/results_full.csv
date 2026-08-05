@@ -1,0 +1,45 @@
+transcript,strategy,passed,missing_keywords,original_input_tokens,pruned_input_tokens,compression_pct,output_tokens,latency_ms
+base_transcript.json,sliding_window,True,,1627,774,52.4,44,0.0064
+base_transcript.json,observation_masking,True,,1627,924,43.2,44,0.0136
+base_transcript.json,recursive_summarization,True,,1627,824,49.4,44,0.068
+base_transcript.json,zone_based_pruning,True,,1627,1408,13.5,44,0.1375
+variation_01.json,sliding_window,False,"MSKU100004,hazmat,customs hold,missing customs documents",696,282,59.5,56,0.0064
+variation_01.json,observation_masking,False,"hazmat,missing customs documents",696,505,27.4,50,0.0136
+variation_01.json,recursive_summarization,True,,696,333,52.2,44,0.0344
+variation_01.json,zone_based_pruning,True,,696,235,66.2,44,0.1864
+variation_02.json,sliding_window,False,"MSKU200002,overweight,weight discrepancy,reweighed",694,282,59.4,55,0.0065
+variation_02.json,observation_masking,True,,694,505,27.2,43,0.0142
+variation_02.json,recursive_summarization,True,,694,333,52.0,43,0.0344
+variation_02.json,zone_based_pruning,False,"MSKU200002,overweight,weight discrepancy,reweighed",694,168,75.8,55,0.1937
+variation_03.json,sliding_window,True,,632,330,47.8,50,0.0055
+variation_03.json,observation_masking,True,,632,476,24.7,50,0.0112
+variation_03.json,recursive_summarization,True,,632,381,39.7,50,0.027
+variation_03.json,zone_based_pruning,True,,632,94,85.1,50,0.1623
+variation_04.json,sliding_window,False,"MSKU400004,seal broken,tampering,security hold",404,282,30.2,54,0.0041
+variation_04.json,observation_masking,False,"seal broken,tampering,security hold",404,312,22.8,51,0.0081
+variation_04.json,recursive_summarization,True,,404,333,17.6,42,0.0189
+variation_04.json,zone_based_pruning,True,,404,59,85.4,42,0.1113
+variation_05.json,sliding_window,True,,213,213,0.0,46,0.0023
+variation_05.json,observation_masking,False,"certificate expired,fumigation required,phytosanitary",213,184,13.6,55,0.0042
+variation_05.json,recursive_summarization,True,,213,213,0.0,46,0.0001
+variation_05.json,zone_based_pruning,True,,213,59,72.3,46,0.0556
+variation_06.json,sliding_window,False,"MSKU600006,manifest mismatch,wrong vessel,re-verification",778,282,63.8,56,0.0071
+variation_06.json,observation_masking,True,,778,564,27.5,45,0.0151
+variation_06.json,recursive_summarization,False,"MSKU600006,manifest mismatch,wrong vessel,re-verification",778,333,57.2,56,0.0397
+variation_06.json,zone_based_pruning,False,"MSKU600006,manifest mismatch,wrong vessel,re-verification",778,244,68.6,56,0.2183
+variation_07.json,sliding_window,False,"MSKU200002,overweight,weight discrepancy,reweighed",564,282,50.0,55,0.0054
+variation_07.json,observation_masking,False,"overweight,weight discrepancy,reweighed",564,414,26.6,52,0.0113
+variation_07.json,recursive_summarization,True,,564,333,41.0,43,0.0286
+variation_07.json,zone_based_pruning,False,"MSKU200002,overweight,weight discrepancy,reweighed",564,53,90.6,55,0.1566
+variation_08.json,sliding_window,True,,354,324,8.5,50,0.004
+variation_08.json,observation_masking,True,,354,275,22.3,50,0.0088
+variation_08.json,recursive_summarization,True,,354,306,13.6,50,0.0158
+variation_08.json,zone_based_pruning,False,"MSKU300003,reefer malfunction,temperature excursion,perishable cargo at risk",354,24,93.2,61,0.0902
+variation_09.json,sliding_window,True,,643,317,50.7,42,0.0058
+variation_09.json,observation_masking,True,,643,486,24.4,42,0.0127
+variation_09.json,recursive_summarization,True,,643,368,42.8,42,0.0345
+variation_09.json,zone_based_pruning,True,,643,182,71.7,42,0.2393
+variation_10.json,sliding_window,False,"MSKU500005,certificate expired,fumigation required,phytosanitary",800,282,64.8,58,0.0106
+variation_10.json,observation_masking,False,certificate expired,800,580,27.5,46,0.0253
+variation_10.json,recursive_summarization,True,,800,333,58.4,46,0.0662
+variation_10.json,zone_based_pruning,True,,800,340,57.5,46,0.2844

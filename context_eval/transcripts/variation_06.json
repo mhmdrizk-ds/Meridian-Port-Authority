@@ -1,0 +1,376 @@
+{
+  "transcript_id": "variation_06",
+  "scenario_description": "manifest_mismatch scenario for MSKU600006, established once at message index 24 after 7 unrelated filler exchanges (21 messages, all containing container IDs), never restated, total length 57. Designed as a genuinely hard case: the fact is buried behind enough container-ID-bearing noise that a naive 'keep anything mentioning a container' importance heuristic exhausts its collection budget before reaching it.",
+  "critical_fact": {
+    "established_at_turn": 24,
+    "container_number": "MSKU600006",
+    "summary": "MSKU600006 shows a manifest mismatch: it was loaded onto the wrong vessel and requires re-verification before it can proceed."
+  },
+  "final_question_turn": 56,
+  "grading_keywords_required": [
+    "MSKU600006",
+    "manifest mismatch",
+    "wrong vessel",
+    "re-verification"
+  ],
+  "system_prompt": "You are the Meridian Port Authority operational assistant. Always answer using tool results only.",
+  "messages": [
+    {
+      "turn": 0,
+      "role": "system",
+      "content": "You are the Meridian Port Authority operational assistant. Always answer using tool results only."
+    },
+    {
+      "turn": 1,
+      "role": "user",
+      "content": "Good morning. Let's begin today's operational checks."
+    },
+    {
+      "turn": 2,
+      "role": "assistant",
+      "content": "Ready. Send me any operational request."
+    },
+    {
+      "turn": 3,
+      "role": "user",
+      "content": "Check available container MSKU710001."
+    },
+    {
+      "turn": 4,
+      "role": "tool",
+      "tool_name": "get_container_status",
+      "tool_input": {
+        "container_number": "MSKU710001"
+      },
+      "content": "{\"container_number\":\"MSKU710001\",\"status\":\"Available\",\"weight_kg\":20000}"
+    },
+    {
+      "turn": 5,
+      "role": "assistant",
+      "content": "MSKU710001 is available, no issues found."
+    },
+    {
+      "turn": 6,
+      "role": "user",
+      "content": "Check available container MSKU710002."
+    },
+    {
+      "turn": 7,
+      "role": "tool",
+      "tool_name": "get_container_status",
+      "tool_input": {
+        "container_number": "MSKU710002"
+      },
+      "content": "{\"container_number\":\"MSKU710002\",\"status\":\"Available\",\"weight_kg\":20000}"
+    },
+    {
+      "turn": 8,
+      "role": "assistant",
+      "content": "MSKU710002 is available, no issues found."
+    },
+    {
+      "turn": 9,
+      "role": "user",
+      "content": "Check available container MSKU710003."
+    },
+    {
+      "turn": 10,
+      "role": "tool",
+      "tool_name": "get_container_status",
+      "tool_input": {
+        "container_number": "MSKU710003"
+      },
+      "content": "{\"container_number\":\"MSKU710003\",\"status\":\"Available\",\"weight_kg\":20000}"
+    },
+    {
+      "turn": 11,
+      "role": "assistant",
+      "content": "MSKU710003 is available, no issues found."
+    },
+    {
+      "turn": 12,
+      "role": "user",
+      "content": "Check available container MSKU710004."
+    },
+    {
+      "turn": 13,
+      "role": "tool",
+      "tool_name": "get_container_status",
+      "tool_input": {
+        "container_number": "MSKU710004"
+      },
+      "content": "{\"container_number\":\"MSKU710004\",\"status\":\"Available\",\"weight_kg\":20000}"
+    },
+    {
+      "turn": 14,
+      "role": "assistant",
+      "content": "MSKU710004 is available, no issues found."
+    },
+    {
+      "turn": 15,
+      "role": "user",
+      "content": "Check available container MSKU710005."
+    },
+    {
+      "turn": 16,
+      "role": "tool",
+      "tool_name": "get_container_status",
+      "tool_input": {
+        "container_number": "MSKU710005"
+      },
+      "content": "{\"container_number\":\"MSKU710005\",\"status\":\"Available\",\"weight_kg\":20000}"
+    },
+    {
+      "turn": 17,
+      "role": "assistant",
+      "content": "MSKU710005 is available, no issues found."
+    },
+    {
+      "turn": 18,
+      "role": "user",
+      "content": "Check available container MSKU710006."
+    },
+    {
+      "turn": 19,
+      "role": "tool",
+      "tool_name": "get_container_status",
+      "tool_input": {
+        "container_number": "MSKU710006"
+      },
+      "content": "{\"container_number\":\"MSKU710006\",\"status\":\"Available\",\"weight_kg\":20000}"
+    },
+    {
+      "turn": 20,
+      "role": "assistant",
+      "content": "MSKU710006 is available, no issues found."
+    },
+    {
+      "turn": 21,
+      "role": "user",
+      "content": "Check available container MSKU710007."
+    },
+    {
+      "turn": 22,
+      "role": "tool",
+      "tool_name": "get_container_status",
+      "tool_input": {
+        "container_number": "MSKU710007"
+      },
+      "content": "{\"container_number\":\"MSKU710007\",\"status\":\"Available\",\"weight_kg\":20000}"
+    },
+    {
+      "turn": 23,
+      "role": "assistant",
+      "content": "MSKU710007 is available, no issues found."
+    },
+    {
+      "turn": 24,
+      "role": "user",
+      "content": "Check container MSKU600006."
+    },
+    {
+      "turn": 25,
+      "role": "tool",
+      "tool_name": "get_container_status",
+      "tool_input": {
+        "container_number": "MSKU600006"
+      },
+      "content": "{\"container_number\":\"MSKU600006\",\"status\":\"Held\",\"manifest_status\":\"Mismatch\",\"note\":\"manifest mismatch, container loaded onto wrong vessel, requires re-verification\"}"
+    },
+    {
+      "turn": 26,
+      "role": "assistant",
+      "content": "MSKU600006 shows a manifest mismatch: it was loaded onto the wrong vessel and requires re-verification before it can proceed."
+    },
+    {
+      "turn": 27,
+      "role": "user",
+      "content": "Check available container MSKU710008."
+    },
+    {
+      "turn": 28,
+      "role": "tool",
+      "tool_name": "get_container_status",
+      "tool_input": {
+        "container_number": "MSKU710008"
+      },
+      "content": "{\"container_number\":\"MSKU710008\",\"status\":\"Available\",\"weight_kg\":20000}"
+    },
+    {
+      "turn": 29,
+      "role": "assistant",
+      "content": "MSKU710008 is available, no issues found."
+    },
+    {
+      "turn": 30,
+      "role": "user",
+      "content": "Check available container MSKU710009."
+    },
+    {
+      "turn": 31,
+      "role": "tool",
+      "tool_name": "get_container_status",
+      "tool_input": {
+        "container_number": "MSKU710009"
+      },
+      "content": "{\"container_number\":\"MSKU710009\",\"status\":\"Available\",\"weight_kg\":20000}"
+    },
+    {
+      "turn": 32,
+      "role": "assistant",
+      "content": "MSKU710009 is available, no issues found."
+    },
+    {
+      "turn": 33,
+      "role": "user",
+      "content": "Check available container MSKU710010."
+    },
+    {
+      "turn": 34,
+      "role": "tool",
+      "tool_name": "get_container_status",
+      "tool_input": {
+        "container_number": "MSKU710010"
+      },
+      "content": "{\"container_number\":\"MSKU710010\",\"status\":\"Available\",\"weight_kg\":20000}"
+    },
+    {
+      "turn": 35,
+      "role": "assistant",
+      "content": "MSKU710010 is available, no issues found."
+    },
+    {
+      "turn": 36,
+      "role": "user",
+      "content": "Check available container MSKU710001."
+    },
+    {
+      "turn": 37,
+      "role": "tool",
+      "tool_name": "get_container_status",
+      "tool_input": {
+        "container_number": "MSKU710001"
+      },
+      "content": "{\"container_number\":\"MSKU710001\",\"status\":\"Available\",\"weight_kg\":20000}"
+    },
+    {
+      "turn": 38,
+      "role": "assistant",
+      "content": "MSKU710001 is available, no issues found."
+    },
+    {
+      "turn": 39,
+      "role": "user",
+      "content": "Check available container MSKU710002."
+    },
+    {
+      "turn": 40,
+      "role": "tool",
+      "tool_name": "get_container_status",
+      "tool_input": {
+        "container_number": "MSKU710002"
+      },
+      "content": "{\"container_number\":\"MSKU710002\",\"status\":\"Available\",\"weight_kg\":20000}"
+    },
+    {
+      "turn": 41,
+      "role": "assistant",
+      "content": "MSKU710002 is available, no issues found."
+    },
+    {
+      "turn": 42,
+      "role": "user",
+      "content": "Check available container MSKU710003."
+    },
+    {
+      "turn": 43,
+      "role": "tool",
+      "tool_name": "get_container_status",
+      "tool_input": {
+        "container_number": "MSKU710003"
+      },
+      "content": "{\"container_number\":\"MSKU710003\",\"status\":\"Available\",\"weight_kg\":20000}"
+    },
+    {
+      "turn": 44,
+      "role": "assistant",
+      "content": "MSKU710003 is available, no issues found."
+    },
+    {
+      "turn": 45,
+      "role": "user",
+      "content": "Check available container MSKU710004."
+    },
+    {
+      "turn": 46,
+      "role": "tool",
+      "tool_name": "get_container_status",
+      "tool_input": {
+        "container_number": "MSKU710004"
+      },
+      "content": "{\"container_number\":\"MSKU710004\",\"status\":\"Available\",\"weight_kg\":20000}"
+    },
+    {
+      "turn": 47,
+      "role": "assistant",
+      "content": "MSKU710004 is available, no issues found."
+    },
+    {
+      "turn": 48,
+      "role": "user",
+      "content": "Check available container MSKU710005."
+    },
+    {
+      "turn": 49,
+      "role": "tool",
+      "tool_name": "get_container_status",
+      "tool_input": {
+        "container_number": "MSKU710005"
+      },
+      "content": "{\"container_number\":\"MSKU710005\",\"status\":\"Available\",\"weight_kg\":20000}"
+    },
+    {
+      "turn": 50,
+      "role": "assistant",
+      "content": "MSKU710005 is available, no issues found."
+    },
+    {
+      "turn": 51,
+      "role": "user",
+      "content": "Check available container MSKU710006."
+    },
+    {
+      "turn": 52,
+      "role": "tool",
+      "tool_name": "get_container_status",
+      "tool_input": {
+        "container_number": "MSKU710006"
+      },
+      "content": "{\"container_number\":\"MSKU710006\",\"status\":\"Available\",\"weight_kg\":20000}"
+    },
+    {
+      "turn": 53,
+      "role": "assistant",
+      "content": "MSKU710006 is available, no issues found."
+    },
+    {
+      "turn": 54,
+      "role": "user",
+      "content": "Check available container MSKU710007."
+    },
+    {
+      "turn": 55,
+      "role": "tool",
+      "tool_name": "get_container_status",
+      "tool_input": {
+        "container_number": "MSKU710007"
+      },
+      "content": "{\"container_number\":\"MSKU710007\",\"status\":\"Available\",\"weight_kg\":20000}"
+    },
+    {
+      "turn": 56,
+      "role": "assistant",
+      "content": "MSKU710007 is available, no issues found."
+    }
+  ]
+}
