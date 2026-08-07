@@ -1,0 +1,378 @@
+{
+  "transcript_id": "base_transcript",
+
+  "scenario_description": "A Meridian Port Authority dispatcher works through a full operational shift. Early in the shift, a hazardous container with an active customs hold is discovered. The rest of the conversation contains many routine operational requests and tool interactions. At the end of the shift, the supervisor asks about unresolved hazardous containers.",
+
+  "critical_fact": {
+    "established_at_turn": 5,
+    "container_number": "MSKU100004",
+    "summary": "MSKU100004 is hazardous and has an ACTIVE customs hold because customs documents are missing. It cannot be released until the customs hold is cleared."
+  },
+
+  "final_question_turn": 48,
+
+  "grading_keywords_required": [
+    "MSKU100004",
+    "hazmat",
+    "customs hold",
+    "missing customs documents"
+  ],
+
+  "system_prompt": "You are the Meridian Port Authority operational assistant. Answer ONLY from tool results. Never invent information. Containers with active customs holds must never be reported as releasable.",
+
+  "messages": [
+
+    {
+      "turn": 0,
+      "role": "system",
+      "content": "You are the Meridian Port Authority operational assistant. Always answer using tool results only."
+    },
+
+    {
+      "turn": 1,
+      "role": "user",
+      "content": "Good morning. Let's begin today's operational checks."
+    },
+
+    {
+      "turn": 2,
+      "role": "assistant",
+      "content": "Good morning. I'm ready. Send me any operational request."
+    },
+
+    {
+      "turn": 3,
+      "role": "user",
+      "content": "Please check container MSKU100004."
+    },
+
+    {
+      "turn": 4,
+      "role": "tool",
+      "tool_name": "get_container_status",
+      "tool_input": {
+        "container_number": "MSKU100004"
+      },
+      "content": "{\"container_number\":\"MSKU100004\",\"status\":\"Held\",\"hazmat\":true,\"hazard_class\":\"Class 8 - Corrosive\",\"carrier\":{\"name\":\"Fast Logistics\",\"license\":\"LIC001\",\"status\":\"Active\"},\"current_location\":{\"yard\":\"Yard B\",\"row\":12,\"slot\":18},\"customs_hold\":{\"status\":\"Active\",\"reason\":\"Missing customs documents\"},\"documents\":{\"bill_of_lading\":true,\"commercial_invoice\":true,\"packing_list\":true,\"customs_documents\":false}}"
+    },
+
+    {
+      "turn": 5,
+      "role": "assistant",
+      "content": "MSKU100004 is hazardous cargo and currently has an ACTIVE customs hold because customs documents are missing. The container must not be released until Customs clears the hold."
+    },
+
+    {
+      "turn": 6,
+      "role": "user",
+      "content": "Run a risk assessment for that container."
+    },
+
+    {
+      "turn": 7,
+      "role": "tool",
+      "tool_name": "assess_container_risk",
+      "tool_input": {
+        "container_number": "MSKU100004"
+      },
+      "content": "{\"container_number\":\"MSKU100004\",\"overall_risk\":\"HIGH\",\"risk_score\":96,\"hazmat\":true,\"active_customs_hold\":true,\"documentation_complete\":false,\"risk_factors\":[\"Hazardous cargo\",\"Missing customs documents\",\"Active customs hold\"],\"recommendation\":\"Container must remain blocked until customs clearance.\"}"
+    },
+
+    {
+      "turn": 8,
+      "role": "assistant",
+      "content": "Risk assessment completed. This container is HIGH RISK and should remain blocked."
+    },
+
+    {
+      "turn": 9,
+      "role": "user",
+      "content": "Leave that one for now. Show me today's schedule for vessel Meridian Star."
+    },
+
+    {
+      "turn": 10,
+      "role": "tool",
+      "tool_name": "get_vessel_schedule",
+      "tool_input": {
+        "vessel_name": "Meridian Star"
+      },
+      "content": "{\"vessel\":\"Meridian Star\",\"eta\":\"2026-08-05T14:30:00\",\"berth\":\"B7\",\"status\":\"On Schedule\",\"origin\":\"Singapore\",\"destination\":\"Meridian Port\",\"containers\":842,\"hazmat_containers\":21,\"priority_unload\":true}"
+    },
+
+    {
+      "turn": 11,
+      "role": "assistant",
+      "content": "Meridian Star is expected at Berth B7 at 14:30 and is currently on schedule."
+    },
+
+    {
+      "turn": 12,
+      "role": "user",
+      "content": "List all currently active customs holds."
+    },
+
+    {
+      "turn": 13,
+      "role": "tool",
+      "tool_name": "list_active_customs_holds",
+      "tool_input": {},
+      "content": "{\"total_active_holds\":3,\"holds\":[{\"container_number\":\"MSKU100004\",\"hazmat\":true,\"status\":\"Active\",\"reason\":\"Missing customs documents\"},{\"container_number\":\"MSKU100008\",\"hazmat\":false,\"status\":\"Active\",\"reason\":\"Random customs inspection\"},{\"container_number\":\"MSKU100011\",\"hazmat\":false,\"status\":\"Active\",\"reason\":\"Import declaration review\"}]}"
+    },
+
+    {
+      "turn": 14,
+      "role": "assistant",
+      "content": "Three containers currently have active customs holds. One of them is hazardous."
+    },
+        {
+      "turn": 15,
+      "role": "user",
+      "content": "Check container MSKU100001."
+    },
+
+    {
+      "turn": 16,
+      "role": "tool",
+      "tool_name": "get_container_status",
+      "tool_input": {
+        "container_number": "MSKU100001"
+      },
+      "content": "{\"container_number\":\"MSKU100001\",\"status\":\"Available\",\"hazmat\":false,\"carrier\":{\"name\":\"Blue Ocean Shipping\",\"license\":\"LIC204\",\"status\":\"Active\"},\"documents\":{\"bill_of_lading\":true,\"commercial_invoice\":true,\"packing_list\":true,\"inspection_certificate\":true,\"customs_documents\":true},\"customs_hold\":null}"
+    },
+
+    {
+      "turn": 17,
+      "role": "assistant",
+      "content": "Container MSKU100001 is available and has no customs hold."
+    },
+
+    {
+      "turn": 18,
+      "role": "user",
+      "content": "Run a risk assessment for MSKU100001."
+    },
+
+    {
+      "turn": 19,
+      "role": "tool",
+      "tool_name": "assess_container_risk",
+      "tool_input": {
+        "container_number": "MSKU100001"
+      },
+      "content": "{\"container_number\":\"MSKU100001\",\"overall_risk\":\"LOW\",\"risk_score\":11,\"hazmat\":false,\"active_customs_hold\":false,\"documentation_complete\":true,\"recommendation\":\"Eligible for release approval.\"}"
+    },
+
+    {
+      "turn": 20,
+      "role": "assistant",
+      "content": "Risk assessment completed. The container is classified as LOW RISK."
+    },
+
+    {
+      "turn": 21,
+      "role": "user",
+      "content": "Submit a release request for MSKU100001."
+    },
+
+    {
+      "turn": 22,
+      "role": "tool",
+      "tool_name": "request_container_release",
+      "tool_input": {
+        "container_number": "MSKU100001"
+      },
+      "content": "{\"request_id\":\"REL-501\",\"container_number\":\"MSKU100001\",\"status\":\"Pending Approval\",\"validation\":{\"risk_check\":\"Passed\",\"customs_hold\":\"None\",\"documents_verified\":true}}"
+    },
+
+    {
+      "turn": 23,
+      "role": "assistant",
+      "content": "Release request REL-501 has been created successfully and is waiting for approval."
+    },
+
+    {
+      "turn": 24,
+      "role": "user",
+      "content": "Approve the pending release request for MSKU100001."
+    },
+
+    {
+      "turn": 25,
+      "role": "tool",
+      "tool_name": "approve_container_release",
+      "tool_input": {
+        "request_id": "REL-501",
+        "approved_by": "Operations Supervisor"
+      },
+      "content": "{\"request_id\":\"REL-501\",\"status\":\"Approved\",\"approved_by\":\"Operations Supervisor\",\"release_reference\":\"REL-AUTH-9821\"}"
+    },
+
+    {
+      "turn": 26,
+      "role": "assistant",
+      "content": "Release request REL-501 has been approved successfully."
+    },
+
+    {
+      "turn": 27,
+      "role": "user",
+      "content": "Check container MSKU100002."
+    },
+
+    {
+      "turn": 28,
+      "role": "tool",
+      "tool_name": "get_container_status",
+      "tool_input": {
+        "container_number": "MSKU100002"
+      },
+      "content": "{\"container_number\":\"MSKU100002\",\"status\":\"Available\",\"hazmat\":false,\"documents\":{\"customs_documents\":true},\"customs_hold\":null}"
+    },
+
+    {
+      "turn": 29,
+      "role": "assistant",
+      "content": "MSKU100002 is available. No customs restrictions were found."
+    },
+
+    {
+      "turn": 30,
+      "role": "user",
+      "content": "Run a risk assessment for MSKU100002."
+    },
+
+    {
+      "turn": 31,
+      "role": "tool",
+      "tool_name": "assess_container_risk",
+      "tool_input": {
+        "container_number": "MSKU100002"
+      },
+      "content": "{\"container_number\":\"MSKU100002\",\"overall_risk\":\"LOW\",\"risk_score\":8,\"hazmat\":false,\"active_customs_hold\":false,\"documentation_complete\":true,\"recommendation\":\"Eligible for release.\"}"
+    },
+
+    {
+      "turn": 32,
+      "role": "assistant",
+      "content": "Risk assessment completed. The container is LOW RISK."
+    },
+
+    {
+      "turn": 33,
+      "role": "user",
+      "content": "Show me today's vessel schedule again."
+    },
+
+    {
+      "turn": 34,
+      "role": "tool",
+      "tool_name": "get_vessel_schedule",
+      "tool_input": {},
+      "content": "{\"date\":\"2026-08-05\",\"vessels\":[{\"name\":\"Meridian Star\",\"eta\":\"14:30\",\"berth\":\"B7\"},{\"name\":\"Ocean Pioneer\",\"eta\":\"16:10\",\"berth\":\"A3\"},{\"name\":\"Pacific Wind\",\"eta\":\"18:45\",\"berth\":\"C1\"},{\"name\":\"Blue Horizon\",\"eta\":\"21:00\",\"berth\":\"B2\"}],\"total_vessels\":4}"
+    },
+
+    {
+      "turn": 35,
+      "role": "assistant",
+      "content": "There are four scheduled vessel arrivals remaining today."
+    },
+        {
+      "turn": 36,
+      "role": "user",
+      "content": "List all active customs holds one more time."
+    },
+
+    {
+      "turn": 37,
+      "role": "tool",
+      "tool_name": "list_active_customs_holds",
+      "tool_input": {},
+      "content": "{\"generated_at\":\"2026-08-05T12:10:00\",\"total_active_holds\":3,\"holds\":[{\"container_number\":\"MSKU100004\",\"hazmat\":true,\"status\":\"Active\",\"reason\":\"Missing customs documents\",\"yard\":\"Yard B\",\"row\":12},{\"container_number\":\"MSKU100008\",\"hazmat\":false,\"status\":\"Active\",\"reason\":\"Random customs inspection\",\"yard\":\"Yard A\",\"row\":4},{\"container_number\":\"MSKU100011\",\"hazmat\":false,\"status\":\"Active\",\"reason\":\"Import declaration review\",\"yard\":\"Yard C\",\"row\":9}]}"
+    },
+
+    {
+      "turn": 38,
+      "role": "assistant",
+      "content": "There are currently three active customs holds. MSKU100004 is the only hazardous container among them and remains blocked due to missing customs documents."
+    },
+
+    {
+      "turn": 39,
+      "role": "user",
+      "content": "Check the current status of MSKU100004 again."
+    },
+
+    {
+      "turn": 40,
+      "role": "tool",
+      "tool_name": "get_container_status",
+      "tool_input": {
+        "container_number": "MSKU100004"
+      },
+      "content": "{\"container_number\":\"MSKU100004\",\"status\":\"Held\",\"hazmat\":true,\"hazard_class\":\"Class 8 - Corrosive\",\"current_location\":{\"yard\":\"Yard B\",\"row\":12,\"slot\":18},\"customs_hold\":{\"status\":\"Active\",\"reason\":\"Missing customs documents\"},\"documents\":{\"bill_of_lading\":true,\"commercial_invoice\":true,\"packing_list\":true,\"customs_documents\":false}}"
+    },
+
+    {
+      "turn": 41,
+      "role": "assistant",
+      "content": "MSKU100004 is still Held. It is hazardous cargo with an ACTIVE customs hold because customs documents are missing. It cannot be released until the customs hold is cleared."
+    },
+
+    {
+      "turn": 42,
+      "role": "user",
+      "content": "Try clearing the customs hold for MSKU100004."
+    },
+
+    {
+      "turn": 43,
+      "role": "tool",
+      "tool_name": "clear_customs_hold",
+      "tool_input": {
+        "container_number": "MSKU100004"
+      },
+      "content": "{\"container_number\":\"MSKU100004\",\"status\":\"Failed\",\"customs_hold\":\"Active\",\"reason\":\"Cannot clear hold: missing customs documents\",\"action_required\":\"Submit missing customs documents for review\"}"
+    },
+
+    {
+      "turn": 44,
+      "role": "assistant",
+      "content": "The customs hold for MSKU100004 could not be cleared. The container remains blocked because the required customs documents are still missing."
+    },
+
+    {
+      "turn": 45,
+      "role": "user",
+      "content": "Run another risk assessment for MSKU100004."
+    },
+
+    {
+      "turn": 46,
+      "role": "tool",
+      "tool_name": "assess_container_risk",
+      "tool_input": {
+        "container_number": "MSKU100004"
+      },
+      "content": "{\"container_number\":\"MSKU100004\",\"overall_risk\":\"HIGH\",\"risk_score\":96,\"hazmat\":true,\"active_customs_hold\":true,\"documentation_complete\":false,\"risk_factors\":[\"Hazardous cargo\",\"Missing customs documents\",\"Active customs hold\"],\"recommendation\":\"Keep container blocked until customs clearance\"}"
+    },
+
+    {
+      "turn": 47,
+      "role": "assistant",
+      "content": "MSKU100004 remains HIGH RISK. It is hazardous cargo with an active customs hold and incomplete documentation. It must remain blocked."
+    },
+
+    {
+      "turn": 48,
+      "role": "user",
+      "content": "Supervisor report: Which hazardous containers are still unresolved at the port?"
+    },
+
+    {
+      "turn": 49,
+      "role": "assistant",
+      "content": "The unresolved hazardous container is MSKU100004. It is marked as hazmat and remains blocked due to an active customs hold caused by missing customs documents. It cannot be released until the customs hold is cleared."
+    }
+  ]
+}

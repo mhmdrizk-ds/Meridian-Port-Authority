@@ -1,0 +1,281 @@
+{
+  "transcript_id": "variation_03",
+  "scenario_description": "reefer_failure scenario for MSKU300003, established once at message index 4, restated near the end, fact paraphrased by assistant, total length 42.",
+  "critical_fact": {
+    "established_at_turn": 4,
+    "container_number": "MSKU300003",
+    "summary": "MSKU300003 has a reefer malfunction causing a temperature excursion; perishable cargo at risk."
+  },
+  "final_question_turn": 41,
+  "grading_keywords_required": [
+    "MSKU300003",
+    "reefer malfunction",
+    "temperature excursion",
+    "perishable cargo at risk"
+  ],
+  "system_prompt": "You are the Meridian Port Authority operational assistant. Always answer using tool results only.",
+  "messages": [
+    {
+      "turn": 0,
+      "role": "system",
+      "content": "You are the Meridian Port Authority operational assistant. Always answer using tool results only."
+    },
+    {
+      "turn": 1,
+      "role": "user",
+      "content": "Good morning. Let's begin today's operational checks."
+    },
+    {
+      "turn": 2,
+      "role": "assistant",
+      "content": "Ready. Send me any operational request."
+    },
+    {
+      "turn": 3,
+      "role": "user",
+      "content": "Check container MSKU300003."
+    },
+    {
+      "turn": 4,
+      "role": "tool",
+      "tool_name": "get_container_status",
+      "tool_input": {
+        "container_number": "MSKU300003"
+      },
+      "content": "{\"container_number\":\"MSKU300003\",\"status\":\"Held\",\"reefer_status\":\"Malfunction\",\"temperature_c\":18.4,\"note\":\"reefer malfunction causing temperature excursion, perishable cargo at risk\"}"
+    },
+    {
+      "turn": 5,
+      "role": "assistant",
+      "content": "MSKU300003 has a reefer malfunction causing a temperature excursion; perishable cargo at risk."
+    },
+    {
+      "turn": 6,
+      "role": "user",
+      "content": "Check available container MSKU700001."
+    },
+    {
+      "turn": 7,
+      "role": "tool",
+      "tool_name": "get_container_status",
+      "tool_input": {
+        "container_number": "MSKU700001"
+      },
+      "content": "{\"container_number\":\"MSKU700001\",\"status\":\"Available\",\"weight_kg\":20000}"
+    },
+    {
+      "turn": 8,
+      "role": "assistant",
+      "content": "MSKU700001 is available, no issues found."
+    },
+    {
+      "turn": 9,
+      "role": "user",
+      "content": "Check available container MSKU700002."
+    },
+    {
+      "turn": 10,
+      "role": "tool",
+      "tool_name": "get_container_status",
+      "tool_input": {
+        "container_number": "MSKU700002"
+      },
+      "content": "{\"container_number\":\"MSKU700002\",\"status\":\"Available\",\"weight_kg\":20000}"
+    },
+    {
+      "turn": 11,
+      "role": "assistant",
+      "content": "MSKU700002 is available, no issues found."
+    },
+    {
+      "turn": 12,
+      "role": "user",
+      "content": "Check available container MSKU700003."
+    },
+    {
+      "turn": 13,
+      "role": "tool",
+      "tool_name": "get_container_status",
+      "tool_input": {
+        "container_number": "MSKU700003"
+      },
+      "content": "{\"container_number\":\"MSKU700003\",\"status\":\"Available\",\"weight_kg\":20000}"
+    },
+    {
+      "turn": 14,
+      "role": "assistant",
+      "content": "MSKU700003 is available, no issues found."
+    },
+    {
+      "turn": 15,
+      "role": "user",
+      "content": "Check available container MSKU700004."
+    },
+    {
+      "turn": 16,
+      "role": "tool",
+      "tool_name": "get_container_status",
+      "tool_input": {
+        "container_number": "MSKU700004"
+      },
+      "content": "{\"container_number\":\"MSKU700004\",\"status\":\"Available\",\"weight_kg\":20000}"
+    },
+    {
+      "turn": 17,
+      "role": "assistant",
+      "content": "MSKU700004 is available, no issues found."
+    },
+    {
+      "turn": 18,
+      "role": "user",
+      "content": "Check available container MSKU700005."
+    },
+    {
+      "turn": 19,
+      "role": "tool",
+      "tool_name": "get_container_status",
+      "tool_input": {
+        "container_number": "MSKU700005"
+      },
+      "content": "{\"container_number\":\"MSKU700005\",\"status\":\"Available\",\"weight_kg\":20000}"
+    },
+    {
+      "turn": 20,
+      "role": "assistant",
+      "content": "MSKU700005 is available, no issues found."
+    },
+    {
+      "turn": 21,
+      "role": "user",
+      "content": "Check available container MSKU700006."
+    },
+    {
+      "turn": 22,
+      "role": "tool",
+      "tool_name": "get_container_status",
+      "tool_input": {
+        "container_number": "MSKU700006"
+      },
+      "content": "{\"container_number\":\"MSKU700006\",\"status\":\"Available\",\"weight_kg\":20000}"
+    },
+    {
+      "turn": 23,
+      "role": "assistant",
+      "content": "MSKU700006 is available, no issues found."
+    },
+    {
+      "turn": 24,
+      "role": "user",
+      "content": "Check available container MSKU700001."
+    },
+    {
+      "turn": 25,
+      "role": "tool",
+      "tool_name": "get_container_status",
+      "tool_input": {
+        "container_number": "MSKU700001"
+      },
+      "content": "{\"container_number\":\"MSKU700001\",\"status\":\"Available\",\"weight_kg\":20000}"
+    },
+    {
+      "turn": 26,
+      "role": "assistant",
+      "content": "MSKU700001 is available, no issues found."
+    },
+    {
+      "turn": 27,
+      "role": "user",
+      "content": "Check available container MSKU700002."
+    },
+    {
+      "turn": 28,
+      "role": "tool",
+      "tool_name": "get_container_status",
+      "tool_input": {
+        "container_number": "MSKU700002"
+      },
+      "content": "{\"container_number\":\"MSKU700002\",\"status\":\"Available\",\"weight_kg\":20000}"
+    },
+    {
+      "turn": 29,
+      "role": "assistant",
+      "content": "MSKU700002 is available, no issues found."
+    },
+    {
+      "turn": 30,
+      "role": "user",
+      "content": "Check available container MSKU700003."
+    },
+    {
+      "turn": 31,
+      "role": "tool",
+      "tool_name": "get_container_status",
+      "tool_input": {
+        "container_number": "MSKU700003"
+      },
+      "content": "{\"container_number\":\"MSKU700003\",\"status\":\"Available\",\"weight_kg\":20000}"
+    },
+    {
+      "turn": 32,
+      "role": "assistant",
+      "content": "MSKU700003 is available, no issues found."
+    },
+    {
+      "turn": 33,
+      "role": "user",
+      "content": "Check available container MSKU700004."
+    },
+    {
+      "turn": 34,
+      "role": "tool",
+      "tool_name": "get_container_status",
+      "tool_input": {
+        "container_number": "MSKU700004"
+      },
+      "content": "{\"container_number\":\"MSKU700004\",\"status\":\"Available\",\"weight_kg\":20000}"
+    },
+    {
+      "turn": 35,
+      "role": "assistant",
+      "content": "MSKU700004 is available, no issues found."
+    },
+    {
+      "turn": 36,
+      "role": "user",
+      "content": "Check available container MSKU700005."
+    },
+    {
+      "turn": 37,
+      "role": "tool",
+      "tool_name": "get_container_status",
+      "tool_input": {
+        "container_number": "MSKU700005"
+      },
+      "content": "{\"container_number\":\"MSKU700005\",\"status\":\"Available\",\"weight_kg\":20000}"
+    },
+    {
+      "turn": 38,
+      "role": "assistant",
+      "content": "MSKU700005 is available, no issues found."
+    },
+    {
+      "turn": 39,
+      "role": "user",
+      "content": "Supervisor: which container is still flagged from this morning?"
+    },
+    {
+      "turn": 40,
+      "role": "tool",
+      "tool_name": "get_container_status",
+      "tool_input": {
+        "container_number": "MSKU300003"
+      },
+      "content": "{\"container_number\":\"MSKU300003\",\"status\":\"Held\",\"reefer_status\":\"Malfunction\",\"temperature_c\":18.4,\"note\":\"reefer malfunction causing temperature excursion, perishable cargo at risk\"}"
+    },
+    {
+      "turn": 41,
+      "role": "assistant",
+      "content": "MSKU300003 has a reefer malfunction causing a temperature excursion; perishable cargo at risk."
+    }
+  ]
+}

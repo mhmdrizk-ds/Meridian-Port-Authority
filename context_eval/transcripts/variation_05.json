@@ -1,0 +1,110 @@
+{
+  "transcript_id": "variation_05",
+  "scenario_description": "expired_cert scenario for MSKU500005, established once at message index 4, never restated, fact only in tool output, total length 15.",
+  "critical_fact": {
+    "established_at_turn": 4,
+    "container_number": "MSKU500005",
+    "summary": "MSKU500005's phytosanitary certificate has expired, so fumigation required before release."
+  },
+  "final_question_turn": 14,
+  "grading_keywords_required": [
+    "MSKU500005",
+    "certificate expired",
+    "fumigation required",
+    "phytosanitary"
+  ],
+  "system_prompt": "You are the Meridian Port Authority operational assistant. Always answer using tool results only.",
+  "messages": [
+    {
+      "turn": 0,
+      "role": "system",
+      "content": "You are the Meridian Port Authority operational assistant. Always answer using tool results only."
+    },
+    {
+      "turn": 1,
+      "role": "user",
+      "content": "Good morning. Let's begin today's operational checks."
+    },
+    {
+      "turn": 2,
+      "role": "assistant",
+      "content": "Ready. Send me any operational request."
+    },
+    {
+      "turn": 3,
+      "role": "user",
+      "content": "Check container MSKU500005."
+    },
+    {
+      "turn": 4,
+      "role": "tool",
+      "tool_name": "get_container_status",
+      "tool_input": {
+        "container_number": "MSKU500005"
+      },
+      "content": "{\"container_number\":\"MSKU500005\",\"status\":\"Held\",\"phytosanitary_certificate\":\"Expired\",\"note\":\"certificate expired, fumigation required\"}"
+    },
+    {
+      "turn": 5,
+      "role": "assistant",
+      "content": "Noted, logged for supervisor review."
+    },
+    {
+      "turn": 6,
+      "role": "user",
+      "content": "Check available container MSKU700001."
+    },
+    {
+      "turn": 7,
+      "role": "tool",
+      "tool_name": "get_container_status",
+      "tool_input": {
+        "container_number": "MSKU700001"
+      },
+      "content": "{\"container_number\":\"MSKU700001\",\"status\":\"Available\",\"weight_kg\":20000}"
+    },
+    {
+      "turn": 8,
+      "role": "assistant",
+      "content": "MSKU700001 is available, no issues found."
+    },
+    {
+      "turn": 9,
+      "role": "user",
+      "content": "Check available container MSKU700002."
+    },
+    {
+      "turn": 10,
+      "role": "tool",
+      "tool_name": "get_container_status",
+      "tool_input": {
+        "container_number": "MSKU700002"
+      },
+      "content": "{\"container_number\":\"MSKU700002\",\"status\":\"Available\",\"weight_kg\":20000}"
+    },
+    {
+      "turn": 11,
+      "role": "assistant",
+      "content": "MSKU700002 is available, no issues found."
+    },
+    {
+      "turn": 12,
+      "role": "user",
+      "content": "Check available container MSKU700003."
+    },
+    {
+      "turn": 13,
+      "role": "tool",
+      "tool_name": "get_container_status",
+      "tool_input": {
+        "container_number": "MSKU700003"
+      },
+      "content": "{\"container_number\":\"MSKU700003\",\"status\":\"Available\",\"weight_kg\":20000}"
+    },
+    {
+      "turn": 14,
+      "role": "assistant",
+      "content": "MSKU700003 is available, no issues found."
+    }
+  ]
+}

@@ -1,0 +1,45 @@
+transcript,strategy,passed,missing_keywords
+base_transcript.json,sliding_window,True,
+base_transcript.json,observation_masking,True,
+base_transcript.json,recursive_summarization,True,
+base_transcript.json,zone_based_pruning,True,
+variation_01.json,sliding_window,False,"MSKU100004,hazmat,customs hold,missing customs documents"
+variation_01.json,observation_masking,False,"hazmat,missing customs documents"
+variation_01.json,recursive_summarization,True,
+variation_01.json,zone_based_pruning,True,
+variation_02.json,sliding_window,False,"MSKU200002,overweight,weight discrepancy,reweighed"
+variation_02.json,observation_masking,True,
+variation_02.json,recursive_summarization,True,
+variation_02.json,zone_based_pruning,False,"MSKU200002,overweight,weight discrepancy,reweighed"
+variation_03.json,sliding_window,True,
+variation_03.json,observation_masking,True,
+variation_03.json,recursive_summarization,True,
+variation_03.json,zone_based_pruning,True,
+variation_04.json,sliding_window,False,"MSKU400004,seal broken,tampering,security hold"
+variation_04.json,observation_masking,False,"seal broken,tampering,security hold"
+variation_04.json,recursive_summarization,True,
+variation_04.json,zone_based_pruning,True,
+variation_05.json,sliding_window,True,
+variation_05.json,observation_masking,False,"certificate expired,fumigation required,phytosanitary"
+variation_05.json,recursive_summarization,True,
+variation_05.json,zone_based_pruning,True,
+variation_06.json,sliding_window,False,"MSKU600006,manifest mismatch,wrong vessel,re-verification"
+variation_06.json,observation_masking,True,
+variation_06.json,recursive_summarization,False,"MSKU600006,manifest mismatch,wrong vessel,re-verification"
+variation_06.json,zone_based_pruning,False,"MSKU600006,manifest mismatch,wrong vessel,re-verification"
+variation_07.json,sliding_window,False,"MSKU200002,overweight,weight discrepancy,reweighed"
+variation_07.json,observation_masking,False,"overweight,weight discrepancy,reweighed"
+variation_07.json,recursive_summarization,True,
+variation_07.json,zone_based_pruning,False,"MSKU200002,overweight,weight discrepancy,reweighed"
+variation_08.json,sliding_window,True,
+variation_08.json,observation_masking,True,
+variation_08.json,recursive_summarization,True,
+variation_08.json,zone_based_pruning,False,"MSKU300003,reefer malfunction,temperature excursion,perishable cargo at risk"
+variation_09.json,sliding_window,True,
+variation_09.json,observation_masking,True,
+variation_09.json,recursive_summarization,True,
+variation_09.json,zone_based_pruning,True,
+variation_10.json,sliding_window,False,"MSKU500005,certificate expired,fumigation required,phytosanitary"
+variation_10.json,observation_masking,False,certificate expired
+variation_10.json,recursive_summarization,True,
+variation_10.json,zone_based_pruning,True,
