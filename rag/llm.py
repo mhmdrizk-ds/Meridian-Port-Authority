@@ -60,19 +60,67 @@ def _call_google(prompt: str, system_prompt: str | None, max_tokens: int) -> str
         return None
 
 
-def _sentence_split(text: str) -> list[str]:
-    return [s.strip() for s in re.split(r"(?<=[.!?])\s+", text) if s.strip()]
+def _split_sentences_in_line(line: str) -> list[str]:
+    """Split one line into sentences, but never split right after a digit
+    followed by a period (a list marker like '3.'), only after a real
+    sentence-ending '.', '!', or '?' that's followed by whitespace and a
+    capital letter. Done as an explicit scan rather than a regex lookbehind
+    because Python's lookbehind can't see two characters back from the
+    split point (the digit before the period) in the same assertion."""
+    parts = []
+    current = ""
+    i = 0
+    n = len(line)
+    while i < n:
+        ch = line[i]
+        current += ch
+        if ch in ".!?":
+            prev_is_digit = i > 0 and line[i - 1].isdigit()
+            next_is_boundary = (
+                i + 1 < n and line[i + 1] == " "
+                and i + 2 < n and line[i + 2].isupper()
+            )
+            if next_is_boundary and not (ch == "." and prev_is_digit):
+                parts.append(current.strip())
+                current = ""
+                i += 1  # skip the space that follows
+        i += 1
+    if current.strip():
+        parts.append(current.strip())
+    return parts
+
+
+def sentence_split(text: str) -> list[str]:
+    """Split into sentences without breaking numbered policy rules apart
+    from their content — a naive split on '. ' turns '3. If a hazardous
+    container...' into ['3.', 'If a hazardous container...'], which loses
+    the rule number entirely and is exactly wrong for exact-ID questions
+    ("what does Rule 3 say?"). Splitting on lines first (policy docs put
+    one rule per line) and only sub-splitting a line on a real
+    sentence-ending punctuation mark avoids that."""
+    lines = [l.strip() for l in text.split("\n") if l.strip()]
+    sentences = []
+    for line in lines:
+        sentences.extend(_split_sentences_in_line(line))
+    return sentences
 
 
 def _keyword_overlap_score(query: str, text: str) -> float:
     """Cheap offline relevance/support proxy: fraction of the query's
-    significant words (len > 3, deduped) that appear in the candidate text."""
+    significant words (deduped) that appear in the candidate text.
+    Numeric tokens (rule/clause numbers) are always kept regardless of
+    length — a 1-digit number like "3" is exactly the signal an exact-ID
+    question needs, dropping it defeats the whole point of that test
+    category."""
     stop = {"what", "does", "the", "policy", "say", "about", "with", "have", "that", "this", "when"}
-    q_words = {w for w in re.findall(r"[a-z0-9]+", query.lower()) if len(w) > 3 and w not in stop}
+    q_words = {
+        w for w in re.findall(r"[a-z0-9]+", query.lower())
+        if (len(w) > 3 or w.isdigit()) and w not in stop
+    }
     if not q_words:
         return 0.0
     text_lower = text.lower()
-    hits = sum(1 for w in q_words if w in text_lower)
+    hits = sum(1 for w in q_words if re.search(rf"\b{re.escape(w)}\b", text_lower))
     return hits / len(q_words)
 
 
@@ -104,12 +152,12 @@ def generate_answer(query: str, context_chunks: list[str], max_tokens: int = 400
         else:
             scored = []
             for chunk in context_chunks:
-                for sent in _sentence_split(chunk):
+                for sent in sentence_split(chunk):
                     scored.append((_keyword_overlap_score(query, sent), sent))
             scored.sort(key=lambda x: x[0], reverse=True)
             top = [s for score, s in scored[:3] if score > 0]
             if not top:
-                top = [_sentence_split(context_chunks[0])[0]] if context_chunks[0] else []
+                top = [sentence_split(context_chunks[0])[0]] if context_chunks[0] else []
             text = (
                 " ".join(top) + "\n\n[offline fallback: extractive answer from "
                 "retrieved chunks, no GOOGLE_API_KEY/GEMINI_API_KEY configured]"

@@ -26,7 +26,7 @@ automatically trustworthy just because it came from "memory" instead of
 
 import re
 
-from rag.llm import _call_google, _keyword_overlap_score  # noqa: E402
+from rag.llm import _call_google, _keyword_overlap_score, sentence_split  # noqa: E402
 
 
 RELEVANCE_THRESHOLD = 0.2  # offline heuristic cutoff, see _keyword_overlap_score
@@ -85,7 +85,7 @@ def check_support(answer: str, passages: list[str]) -> dict:
     # in the combined source text. This catches the clearest failure mode
     # (an invented rule/number with no lexical trace in the source) even
     # though it can't judge subtler unsupported inferences.
-    sentences = [s.strip() for s in re.split(r"(?<=[.!?])\s+", answer) if s.strip()]
+    sentences = [s for s in sentence_split(answer) if s.strip()]
     unsupported = []
     for sent in sentences:
         if "[offline fallback" in sent:
