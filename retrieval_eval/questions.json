@@ -1,0 +1,89 @@
+{
+  "note": "policy_name is the single policy naive/hybrid RAG are told to search — for multi_part questions this is deliberately just the first relevant policy, so the eval also shows naive/hybrid missing the other half of the answer, not just agentic winning on style points. expected_keywords are used for the offline accuracy grader in run_eval.py (fraction of these terms found, case-insensitive, in the returned answer).",
+  "questions": [
+    {
+      "id": "q1",
+      "category": "general",
+      "question": "What is the purpose of the hazmat handling policy?",
+      "policy_name": "hazmat_policy",
+      "expected_keywords": ["safe handling", "hazardous cargo", "regulations", "personnel"]
+    },
+    {
+      "id": "q2",
+      "category": "general",
+      "question": "What hazard classifications does the hazmat policy define?",
+      "policy_name": "hazmat_policy",
+      "expected_keywords": ["classification", "hazard", "type"]
+    },
+    {
+      "id": "q3",
+      "category": "general",
+      "question": "What is the purpose of the customs hold policy?",
+      "policy_name": "customs_policy",
+      "expected_keywords": ["customs", "hold", "secure", "compliant", "traceable"]
+    },
+    {
+      "id": "q4",
+      "category": "general",
+      "question": "What must customs officers do before approving a release request on a held container?",
+      "policy_name": "customs_policy",
+      "expected_keywords": ["review", "reason", "hold", "approve"]
+    },
+    {
+      "id": "q5",
+      "category": "exact_id",
+      "question": "What does Rule 3 of the hazmat policy say?",
+      "policy_name": "hazmat_policy",
+      "expected_keywords": ["customs hold", "customs approval", "hazardous container"]
+    },
+    {
+      "id": "q6",
+      "category": "exact_id",
+      "question": "What does Rule 7 of the hazmat policy say about damaged packaging?",
+      "policy_name": "hazmat_policy",
+      "expected_keywords": ["damaged packaging", "isolated", "safety inspection"]
+    },
+    {
+      "id": "q7",
+      "category": "exact_id",
+      "question": "What does Rule 1 of the customs policy say?",
+      "policy_name": "customs_policy",
+      "expected_keywords": ["active customs hold", "cannot be released", "customs approval"]
+    },
+    {
+      "id": "q8",
+      "category": "exact_id",
+      "question": "What does Rule 6 of the customs policy require to be documented for a hold?",
+      "policy_name": "customs_policy",
+      "expected_keywords": ["reason", "date", "documented", "hold"]
+    },
+    {
+      "id": "q9",
+      "category": "multi_part",
+      "question": "If a container is hazmat and has an active customs hold, what is the full approval chain before release?",
+      "policy_name": "hazmat_policy",
+      "expected_keywords": ["supervisor", "customs approval", "hazardous", "active customs hold"]
+    },
+    {
+      "id": "q10",
+      "category": "multi_part",
+      "question": "What steps must happen before releasing a container that is both flagged as hazardous material and under customs investigation?",
+      "policy_name": "hazmat_policy",
+      "expected_keywords": ["verification", "supervisor", "customs", "investigation"]
+    },
+    {
+      "id": "q11",
+      "category": "multi_part",
+      "question": "Compare what happens when only a hazmat flag is present versus when only a customs hold is present — what approvals differ?",
+      "policy_name": "hazmat_policy",
+      "expected_keywords": ["authorized supervisor", "customs officer", "hazardous", "hold"]
+    },
+    {
+      "id": "q12",
+      "category": "multi_part",
+      "question": "A container has damaged packaging, is hazmat, and has a customs hold — what combined safety and compliance steps apply before it can move?",
+      "policy_name": "hazmat_policy",
+      "expected_keywords": ["isolated", "safety inspection", "supervisor", "customs approval"]
+    }
+  ]
+}

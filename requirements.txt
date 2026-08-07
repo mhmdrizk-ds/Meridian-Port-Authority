@@ -3,3 +3,5 @@ langchain-chroma
 langchain-huggingface
 langchain-text-splitters
 langchain-core
+rank_bm25
+sentence-transformers
