@@ -1,18 +1,29 @@
+import json
 import sys
 from pathlib import Path
 
 from agent import capabilities
+from agent.knowledge import KnowledgeLayer
 from agent.mcp_client import MCPClient
 
 PROJECT_ROOT = Path(__file__).resolve().parent.parent
 
 
 class MeridianAgentSession:
-    def __init__(self, elicitation_handler, sampling_handler, progress_handler, verbose=True):
+    def __init__(self, elicitation_handler, sampling_handler, progress_handler, verbose=True,
+                 memory_buffer_capacity=50, consolidation_interval_seconds=300):
         self.verbose = verbose
         self._tools_cache = None
         self._tools_dirty = True
         self.server_capabilities = {}
+
+        # Memory & RAG integration (see agent/knowledge.py). One
+        # KnowledgeLayer per session — matches memory/README.md's framing
+        # of "one shift == one session".
+        self.knowledge = KnowledgeLayer(
+            buffer_capacity=memory_buffer_capacity,
+            consolidation_interval_seconds=consolidation_interval_seconds,
+        )
 
         self.client = MCPClient(
             server_cmd=[sys.executable, "-m", "mcp_server.server"],
@@ -76,7 +87,44 @@ class MeridianAgentSession:
 
     # ---- thin wrappers used by scenarios ----------------------------------
     def call_tool(self, name, arguments, progress_token=None):
-        return self.client.call_tool(name, arguments, progress_token=progress_token)
+        """Every tool call becomes a turn in short-term memory — this is
+        the actual live-loop hook for the memory system (see
+        agent/knowledge.py, memory/api.py). Tool results are real DB-backed
+        facts (container numbers, carrier names/status, hazmat flags), so
+        the promote-or-drop router's keyword/regex matching has real
+        operational content to reason over, not synthetic test strings."""
+        self.knowledge.remember("dispatcher_action", f"call_tool {name}({json.dumps(arguments, default=str)})")
+        result = self.client.call_tool(name, arguments, progress_token=progress_token)
+        self.knowledge.remember("tool_result", f"{name} -> {self._result_text(result)}")
+        return result
+
+    @staticmethod
+    def _result_text(result):
+        try:
+            return result["content"][0]["text"]
+        except (KeyError, IndexError, TypeError):
+            return str(result)
+
+    # ---- Memory & RAG integration (agent/knowledge.py) --------------------
+    def ask_policy_question(self, query, force_strategy=None):
+        """Answer a policy question via RAG (naive/hybrid/agentic, routed
+        per agent/knowledge.py), verified by Self-RAG, and also logged into
+        the same short-term memory as everything else in the session."""
+        self.knowledge.remember("dispatcher_question", query)
+        result = self.knowledge.ask_policy_question(query, force_strategy=force_strategy)
+        self.knowledge.remember("policy_answer", result.get("answer", ""))
+        return result
+
+    def recall_fact(self, topic):
+        """Grounded recall from semantic memory, Self-RAG-verified. Returns
+        `recalled=None` if nothing is known — callers must not fabricate."""
+        return self.knowledge.recall(topic)
+
+    def run_memory_consolidation(self):
+        return self.knowledge.run_consolidation()
+
+    def context_for_prompt(self):
+        return self.knowledge.context_for_prompt()
 
     def authenticate(self, badge_code):
         return self.call_tool("authenticate", {"badge_code": badge_code})
@@ -97,4 +145,5 @@ class MeridianAgentSession:
         return self.client.request("prompts/get", payload)
 
     def close(self):
+        self.knowledge.stop_background_consolidation()
         self.client.close()
