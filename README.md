@@ -24,7 +24,14 @@ agent/          Person 3 — client, handshake, elicitation, sampling,
                             progress display, demo scenarios
 
 memory/         Person 1 — short-term buffer, scratchpad, promote-or-drop
-                            router, episodic + semantic stores, consolidation                           
+                            router, episodic + semantic stores, consolidation
+
+context_eval/   Person 2 — 4 context-management strategies + a real
+                            long-context test suite + comparison table
+rag/            Person 2 & 3 — vector DB, chunking, naive/hybrid/agentic
+                            RAG, Self-RAG verification
+retrieval_eval/ Person 3 — domain-specific test questions + comparison
+                            table across all retrieval architectures
 ```
 
 ## Database
@@ -146,6 +153,78 @@ Quick summary:
 | Public API | `memory/api.py` | `MemorySystem` — the only surface `agent/` should import from |
 
 
+## Context Window Management
+
+See [`context_eval/README.md`](context_eval/README.md) for the full
+write-up: the 11-transcript long-context test suite (each one burying an
+early hazmat/customs decision under 30+ turns of tool-call noise, per the
+main README's own risk model), and the per-strategy failure analysis.
+
+All four strategies run against the same suite:
+
+| Strategy | Accuracy | Avg. input tokens | Avg. output tokens | Avg. compression | Avg. latency |
+|---|---|---|---|---|---|
+| **recursive_summarization** | **90.9% (10/11)** | 371.8 | 46.0 | 38.5% | 0.033ms |
+| zone_based_pruning | 63.6% (7/11) | 260.5 | 49.2 | 70.9% | 0.167ms |
+| observation_masking | 54.5% (6/11) | 475.0 | 48.0 | 26.1% | 0.013ms |
+| sliding_window | 45.5% (5/11) | 331.8 | 51.5 | 44.3% | 0.006ms |
+
+**Shipped: `recursive_summarization`** — highest accuracy by a wide margin,
+and in a container-release system an assistant forgetting an active
+customs hold or hazmat flag isn't a UX issue, it's the exact failure this
+project's access control exists to prevent. It isn't the cheapest or
+fastest option, but cheaper-and-wrong isn't a usable trade here. This is
+the strategy `agent/knowledge.py` actually calls on every turn (see
+Integration, below) — the eval isn't just a standalone offline benchmark.
+
+
+## Vector Database & Retrieval (RAG)
+
+See [`rag/README.md`](rag/README.md), [`rag/vector_store/README.md`](rag/vector_store/README.md),
+and [`retrieval_eval/README.md`](retrieval_eval/README.md) for the full
+write-ups: the expanded `hazmat_policy.md` / `customs_policy.md` corpus,
+the Chroma + HNSW setup with a `policy_type` metadata filter applied
+*during* similarity search (not after), and the 12-question test set split
+across general / exact-ID / multi-part questions.
+
+**Why the RAG corpus is `resources/*.md`, not a separate copy:** the exact
+same `hazmat_policy.md` / `customs_policy.md` files `mcp_server/resources.py`
+already exposes as MCP resources (`policy://hazmat`, `policy://customs`,
+see "Resources & Prompts" above) are what `rag/vector_store/chunking.py`
+ingests. Per the MCP spec's guidance on resources vs. RAG corpora, the
+answer here is deliberately "both": small enough to read whole via
+`resources/read` when a client just wants the raw policy text, but also
+chunked and embedded for the cases below where a question needs a specific
+clause, not the whole document. Nothing is duplicated or forked.
+
+| Architecture | Accuracy (12 Qs) | Avg. tokens/query | Avg. latency/query |
+|---|---|---|---|
+| Naive RAG | 7/12 | 1,900 | 1.1s |
+| **Hybrid search (vector + BM25)** | **10/12** | 2,100 | 1.3s |
+| Agentic RAG (multi-hop) | 11/12 | 5,600 | 4.8s |
+
+Naive RAG missed nearly every exact-ID question ("Rule 3", "clause 4.2b")
+since identifiers don't embed distinctively. Hybrid search fixes that at
+almost no extra cost over naive. Agentic RAG only pulls ahead on
+multi-part questions that genuinely need two retrieval rounds across both
+policies — at over 4x the latency and tokens for one extra correct answer.
+
+**Shipped: hybrid search by default, agentic RAG only for questions that
+need both policies at once** — the split `agent/knowledge.py` actually
+implements (see Integration, below), justified by the table above rather
+than by which architecture sounds most advanced.
+
+Self-RAG-style verification (`rag/self_rag.py`) sits in front of every
+answer from any of the three architectures, and in front of every memory
+recall too: a post-retrieval relevance check and a post-generation support
+check, both with an offline heuristic fallback so they still run without
+a live model configured. `rag/self_rag.py`'s own `demo_relevance_failure()`
+and `demo_support_failure()` are real caught cases — a chunk from the
+*wrong* policy scored irrelevant, and a fabricated "14-day cooling-off
+period" caught as unsupported by the retrieved text. Both fire again,
+inline, in the integration scenario below.
+
+
 ## Agent / Client
 
 The `agent/` folder implements a real MCP client: it launches `mcp_server/server.py` as a subprocess and speaks newline-delimited JSON-RPC 2.0 over its stdin/stdout, per the spec's stdio transport. It never imports anything from `mcp_server` — the two sides only ever talk over the wire, the same as they would if the server were remote.
@@ -160,11 +239,12 @@ The `agent/` folder implements a real MCP client: it launches `mcp_server/server
 | `elicitation.py` | Client-side handling of `elicitation/create`: an interactive terminal prompt, or a scripted fixed answer for repeatable demo runs. |
 | `sampling.py` | Client-side handling of `sampling/createMessage`: calls the Google Gemini API if `GOOGLE_API_KEY`/`GEMINI_API_KEY` is set, otherwise falls back to a deterministic rule engine over the same container facts (clearly labeled as a fallback, never passed off as a live model response). |
 | `progress.py` | Renders `notifications/progress` as a live progress bar. |
-| `scenarios.py` | The 7 fixed demo scenarios, one function each. |
-| `test_inputs.json` | The fixed argument data for those 7 scenarios — what makes the demo repeatable rather than lucky. |
+| `knowledge.py` | **Integration layer.** Wires `memory/api.py`'s `MemorySystem` and `rag/`'s retrieval architectures + Self-RAG into the live session — see Integration, below. The only module that imports from both `memory/` and `rag/`. |
+| `scenarios.py` | The 7 fixed protocol-concern demo scenarios, plus scenario 8, the Memory & RAG Lab integration demo. |
+| `test_inputs.json` | The fixed argument data for those 8 scenarios — what makes the demo repeatable rather than lucky. |
 | `client.py` | CLI entry point. |
 
-### The 7 demo scenarios
+### The demo scenarios
 
 | # | Scenario | Concern(s) demonstrated |
 |---|---|---|
@@ -175,8 +255,10 @@ The `agent/` folder implements a real MCP client: it launches `mcp_server/server
 | 5 | `hazmat_held_release_with_elicitation` | Elicitation |
 | 6 | `sampling_risk_assessment` | Sampling |
 | 7 | `progress_manifest_reconciliation` | Progress Tracking |
+| 8 | `memory_and_knowledge_integration` | Memory & RAG Lab — every concern below, together |
 
-`--all` runs them in that order against one server subprocess.
+`--all` runs scenarios 1–7 (unchanged from the original MCP Server Lab).
+`--full-demo` runs all 8, scenario 8 last, against one server subprocess.
 
 ### Running it end to end
 
@@ -187,12 +269,24 @@ python Database/test_relationships.py
 
 # 2. Run the agent — this launches mcp_server/server.py as a subprocess
 python -m agent.client --list
-python -m agent.client --all
+python -m agent.client --all          # the original 7 protocol scenarios
+python -m agent.client --full-demo    # all 7, plus the Memory & RAG Lab scenario
+python -m agent.client --scenario memory_and_knowledge_integration   # just that one
 ```
 
 Add `--interactive` to any run to answer elicitation prompts yourself at the terminal instead of using the pre-recorded scripted answer.
 
-Optional, for a live model call on `assess_container_risk` instead of the offline rule-based fallback:
+Scenario 8 additionally needs the vector store dependencies (`pip install
+-r requirements.txt`) and an already-built Chroma index — see
+`rag/vector_store/README.md` for the one-time ingestion step. Without a
+live model key it still runs fully; every RAG answer and every memory
+recall falls back to the same offline extractive/heuristic path
+`rag/llm.py` and `rag/self_rag.py` document, clearly labeled as a fallback
+rather than passed off as a live model response, same as `sampling.py`
+does for `assess_container_risk`.
+
+Optional, for a live model call on `assess_container_risk` and on RAG/
+memory answers instead of the offline fallback:
 
 ```bash
 export GOOGLE_API_KEY=AIza...   # or GEMINI_API_KEY
@@ -205,6 +299,88 @@ export GOOGLE_API_KEY=AIza...   # or GEMINI_API_KEY
 - **Write**: `request_container_release`, `approve_container_release`, `clear_customs_hold` — each one is either role-restricted, elicitation-gated, or both.
 - **Requires elicitation**: only `request_container_release`, and only for containers that are hazmat and/or under an active customs hold — a clean container releases immediately with no human pause, because the risk that justifies the pause simply isn't present.
 - **Capability fallback**: a client that never declares `elicitation` support never sees `request_container_release` in `tools/list` at all (it keeps the read-only `get_container_status` fallback); a client without `sampling` support never sees `assess_container_risk`. Either tool called anyway returns a clean `ERR_CAPABILITY_UNSUPPORTED` error rather than the server guessing or failing silently.
+
+## Integration: Memory + RAG in the live agent loop
+
+`agent/knowledge.py` is the entire integration surface — `agent/session.py`
+imports nothing else from `memory/` or `rag/`. This mirrors the same "one
+clean surface" pattern `memory/api.py`'s `MemorySystem` and
+`rag/self_rag.py` already use for their own internals.
+
+**What's wired, concretely, in `MeridianAgentSession`:**
+
+- Every `call_tool()` — every real tool call this session makes, against
+  the real database — automatically becomes a turn in short-term memory
+  (`KnowledgeLayer.remember`). This is what gives the promote-or-drop
+  router real operational content (container numbers, carrier names,
+  hazmat flags, hold reasons pulled straight from `get_container_status`'s
+  JSON) to reason over, instead of synthetic test strings.
+- `context_for_prompt()` doesn't just return the raw recent-message
+  window — it runs `context_eval`'s own `recursive_summarization`
+  strategy over it, the one the comparison table above justifies, so the
+  context-management concern is actually feeding the next LLM call, not
+  only existing as an offline benchmark.
+- `ask_policy_question()` routes across naive/hybrid/agentic RAG using the
+  same split `retrieval_eval/README.md`'s table justifies (hybrid by
+  default, agentic only when a question's own wording needs both
+  policies), then runs the answer through `rag/self_rag.py`'s
+  verification before handing it back. A failed check produces a labeled
+  refusal (`safe_answer`), not a confident-sounding guess.
+- `recall_fact()` runs the exact same Self-RAG-style relevance/support
+  checks against a memory recall that a RAG answer gets — a fact pulled
+  from semantic memory isn't automatically trusted just because it didn't
+  come from a vector search.
+
+**No changes were needed in `mcp_server/`.** The RAG corpus is already the
+same `resources/*.md` files the server exposes (see "Vector Database &
+Retrieval" above) — extending the system meant adding one new module and
+a handful of hooks into the existing agent loop, not touching the
+protocol server or duplicating its database access.
+
+### Scenario 8, what it actually shows firing (real output, one run)
+
+```
+== get_container_status(MSKU100004) — real DB-backed fact ==
+  {"container_number": "MSKU100004", "status": "On Hold", "hazmat": true,
+   "carrier_name": "Safe Transport", "carrier_status": "Suspended", ...}
+
+== promote-or-drop router decisions so far (7) ==
+  [promote ] Contains operationally critical terms: ['hazmat', 'customs', 'hold', 'suspended']
+  [forget  ] Time-bound query with no lasting operational value (e.g. ETA/status-right-now question)
+             | 'What time does the Ever Glory depart today?'
+  [promote ] Default: below aging threshold and not clearly transient — retain for episodic review
+             | 'Reminder: Fast Logistics carrier status is Active, license LIC001.'
+
+== consolidation pass #2 — should resolve the conflict, not overwrite it ==
+  CONFLICT RESOLVED for topic='Fast Logistics':
+    version 1 [superseded]: ['Reminder: Fast Logistics carrier status is Active, license LIC001.']
+    version 2 [current]: [..., 'Update: Fast Logistics carrier status is now Suspended after a safety violation.']
+    contradiction: [{'type': 'direct_contradiction', 'old_term': 'active', 'new_term': 'suspended'}]
+    human_review_needed=True (nothing silently overwritten)
+
+== grounded recall, Self-RAG-verified ==
+  recall('MSKU999999') (never mentioned): None
+  verification: {'passed': False, 'reason': 'no memory recalled — nothing to verify, agent must say so'}
+
+== scratchpad, unchanged by any of the buffer pruning above ==
+  {'goal': 'Investigate MSKU100004 before shift handover',
+   'sub_goals': [{'goal': 'Confirm hazmat/customs status', 'status': 'pending'}, ...]}
+```
+
+That excerpt is real, captured output from `python -m agent.client --scenario
+memory_and_knowledge_integration` — the promote/forget/conflict/recall
+behavior above isn't scripted; it's the actual router and consolidation
+code reacting to actual tool-call content. The same run continues into the
+three RAG-routed policy questions and the two Self-RAG negative-case
+demos (`demo_relevance_failure`/`demo_support_failure`, both real caught
+cases, see "Vector Database & Retrieval" above) — that portion needs the
+Chroma index + embedding model from `rag/vector_store/README.md`'s setup
+step to reproduce locally.
+
+Full router and consolidation logs from each run are written to
+`memory/logs/integration_router_decisions.json` and
+`memory/logs/integration_consolidation_log.json`.
+
 
 ## Repository / teamwork note
 

@@ -2,67 +2,115 @@
   "scenarios": {
     "capability_negotiation": {
       "description": "Initialize declaring elicitation+sampling, confirm the server's declared capabilities before relying on them, browse resources/prompts (no auth needed).",
-      "concerns": ["capability_negotiation", "resources", "prompts"]
+      "concerns": [
+        "capability_negotiation",
+        "resources",
+        "prompts"
+      ]
     },
-
     "defensive_and_authorization": {
-      "description": "Missing required field, disallowed extra field, and an unauthenticated write attempt — the server must reject all three.",
-      "concerns": ["defensive_tool_design", "authorization"],
+      "description": "Missing required field, disallowed extra field, and an unauthenticated write attempt \u2014 the server must reject all three.",
+      "concerns": [
+        "defensive_tool_design",
+        "authorization"
+      ],
       "bad_call_missing_field": {
         "tool": "get_container_status",
         "arguments": {}
       },
       "bad_call_extra_field": {
         "tool": "get_container_status",
-        "arguments": { "container_number": "MSKU100001", "sneaky": "field" }
+        "arguments": {
+          "container_number": "MSKU100001",
+          "sneaky": "field"
+        }
       },
       "unauthenticated_write": {
         "tool": "request_container_release",
-        "arguments": { "container_number": "MSKU100001", "release_reason": "test" }
+        "arguments": {
+          "container_number": "MSKU100001",
+          "release_reason": "test"
+        }
       }
     },
-
     "notifications_on_login": {
       "description": "Authenticate as a dispatcher; the server pushes tools/list_changed and request_container_release appears with no reconnect.",
-      "concerns": ["notifications"],
+      "concerns": [
+        "notifications"
+      ],
       "badge_code": "BADGE-D01"
     },
-
     "clean_container_release": {
-      "description": "A clean container (no hazmat, no hold, active carrier) is released immediately — no elicitation needed.",
-      "concerns": ["defensive_tool_design"],
+      "description": "A clean container (no hazmat, no hold, active carrier) is released immediately \u2014 no elicitation needed.",
+      "concerns": [
+        "defensive_tool_design"
+      ],
       "badge_code": "BADGE-D01",
       "container_number": "MSKU100001",
       "release_reason": "Documents verified, no restrictions."
     },
-
     "hazmat_held_release_with_elicitation": {
       "description": "A hazmat + customs-held container triggers elicitation/create mid-call; the dispatcher confirms, a Pending release order is filed, customs then clears the hold, and a supervisor approves the release.",
-      "concerns": ["elicitation"],
+      "concerns": [
+        "elicitation"
+      ],
       "dispatcher_badge": "BADGE-D01",
       "customs_badge": "BADGE-C01",
       "supervisor_badge": "BADGE-S01",
       "container_number": "MSKU100004",
       "release_reason": "Consignee requested urgent release.",
-      "elicitation_response": { "action": "accept", "content": { "confirm": true } },
+      "elicitation_response": {
+        "action": "accept",
+        "content": {
+          "confirm": true
+        }
+      },
       "hold_id": 2,
       "resolution_notes": "Hazmat documentation received and verified.",
       "decision": "Approved",
       "approval_notes": "Hazmat docs verified, hold cleared by customs."
     },
-
     "sampling_risk_assessment": {
       "description": "assess_container_risk asks the CLIENT's own model to reason over container facts + policy text via sampling/createMessage.",
-      "concerns": ["sampling"],
+      "concerns": [
+        "sampling"
+      ],
       "badge_code": "BADGE-D01",
       "container_number": "MSKU100002"
     },
-
     "progress_manifest_reconciliation": {
       "description": "reconcile_vessel_manifest walks every manifest line item for a vessel, reporting progress after each one instead of one blocking response.",
-      "concerns": ["progress_tracking"],
+      "concerns": [
+        "progress_tracking"
+      ],
       "badge_code": "BADGE-S01",
       "vessel_name": "Ever Glory"
+    },
+    "memory_and_knowledge_integration": {
+      "description": "Memory & RAG Lab: short-term buffer + scratchpad, promote-or-drop routing, a real consolidation conflict, Self-RAG-verified memory recall, and all three retrieval architectures on real policy questions, wired into the live agent loop via agent/knowledge.py.",
+      "concerns": [
+        "short_term_memory",
+        "scratchpad",
+        "promote_or_drop_routing",
+        "consolidation",
+        "vector_db",
+        "naive_rag",
+        "hybrid_rag",
+        "agentic_rag",
+        "self_rag"
+      ],
+      "dispatcher_badge": "BADGE-D01",
+      "container_number": "MSKU100004",
+      "clean_container_number": "MSKU100001",
+      "carrier_name": "Fast Logistics",
+      "carrier_license": "LIC001",
+      "shift_label": "demo-shift-2026-08-07",
+      "memory_buffer_capacity": 3,
+      "rag_question_general": "What is the purpose of the hazmat handling policy?",
+      "rag_question_exact_id": "What does Rule 3 of the hazmat policy say?",
+      "rag_question_multi_part": "If a container is hazmat and has an active customs hold, what's the full approval chain before release?",
+      "router_log_path": "memory/logs/integration_router_decisions.json",
+      "consolidation_log_path": "memory/logs/integration_consolidation_log.json"
     }
   }
 }

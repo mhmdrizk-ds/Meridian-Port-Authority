@@ -6,7 +6,7 @@ from pathlib import Path
 from agent.elicitation import interactive_elicitation_handler, scripted_elicitation_handler
 from agent.progress import progress_handler
 from agent.sampling import sampling_handler
-from agent.scenarios import SCENARIO_ORDER, SCENARIOS
+from agent.scenarios import FULL_DEMO_ORDER, SCENARIO_ORDER, SCENARIOS
 from agent.session import MeridianAgentSession
 
 TEST_INPUTS_PATH = Path(__file__).resolve().parent / "test_inputs.json"
@@ -29,6 +29,7 @@ def build_session(scenario_data, interactive):
         elicitation_handler=elicit,
         sampling_handler=sampling_handler,
         progress_handler=progress_handler,
+        memory_buffer_capacity=scenario_data.get("memory_buffer_capacity", 50),
     )
 
 
@@ -56,6 +57,11 @@ def main():
     parser = argparse.ArgumentParser(description="Meridian Port Authority MCP agent")
     parser.add_argument("--scenario", help="Name of a single scenario to run")
     parser.add_argument("--all", action="store_true", help="Run all 7 scenarios in order")
+    parser.add_argument(
+        "--full-demo",
+        action="store_true",
+        help="Run all 7 original scenarios plus the Memory & RAG Lab integration scenario",
+    )
     parser.add_argument("--list", action="store_true", help="List available scenarios and exit")
     parser.add_argument(
         "--interactive",
@@ -67,12 +73,17 @@ def main():
     all_data = load_test_inputs()
 
     if args.list:
-        for name in SCENARIO_ORDER:
+        for name in FULL_DEMO_ORDER:
             print(f"  {name:42s} {all_data[name].get('description', '')}")
         return
 
     if args.all:
         for name in SCENARIO_ORDER:
+            run_scenario(name, all_data, args.interactive)
+        return
+
+    if args.full_demo:
+        for name in FULL_DEMO_ORDER:
             run_scenario(name, all_data, args.interactive)
         return
 
