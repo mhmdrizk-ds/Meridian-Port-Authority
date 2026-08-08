@@ -28,7 +28,7 @@ VALUES
 
 ('MSKU100003', 1, 1, 1, '40FT', 0, 'On Hold', '2026-07-20'),
 
-('MSKU100004', 1, 2, 2, '20FT', 1, 'On Hold', '2026-07-20');
+('MSKU100004', 1, 2, 1, '20FT', 1, 'On Hold', '2026-07-20');
 
 -- officer_id: 2 = Sam Okafor (customs_officer)
 INSERT INTO customs_holds

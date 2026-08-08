@@ -1,0 +1,95 @@
+[
+  {
+    "action": "created",
+    "topic": "MSKU100004",
+    "statements": [
+      "call_tool get_container_status({\"container_number\": \"MSKU100004\"})",
+      "get_container_status -> {\n  \"container_number\": \"MSKU100004\",\n  \"status\": \"On Hold\",\n  \"hazmat\": true,\n  \"container_type\": \"20FT\",\n  \"vessel_name\": \"Ever Glory\",\n  \"carrier_name\": \"Safe Transport\",\n  \"carrier_status\": \"Suspended\",\n  \"active_customs_hold\": {\n    \"hold_id\": 2,\n    \"hold_reason\": \"Hazardous materials inspection\",\n    \"created_at\": \"2026-07-28 13:48:47\"\n  }\n}"
+    ],
+    "at": 1786185747.104417
+  },
+  {
+    "action": "created",
+    "topic": "Safe Transport",
+    "statements": [
+      "get_container_status -> {\n  \"container_number\": \"MSKU100004\",\n  \"status\": \"On Hold\",\n  \"hazmat\": true,\n  \"container_type\": \"20FT\",\n  \"vessel_name\": \"Ever Glory\",\n  \"carrier_name\": \"Safe Transport\",\n  \"carrier_status\": \"Suspended\",\n  \"active_customs_hold\": {\n    \"hold_id\": 2,\n    \"hold_reason\": \"Hazardous materials inspection\",\n    \"created_at\": \"2026-07-28 13:48:47\"\n  }\n}"
+    ],
+    "at": 1786185747.104417
+  },
+  {
+    "action": "created",
+    "topic": "Fast Logistics",
+    "statements": [
+      "Reminder: Fast Logistics carrier status is Active, license LIC001."
+    ],
+    "at": 1786185747.104417
+  },
+  {
+    "action": "run_summary",
+    "ran_at": 1786185747.104417,
+    "episodes_processed": 6,
+    "topics_touched": [
+      "MSKU100004",
+      "Safe Transport",
+      "Fast Logistics"
+    ],
+    "facts_expired": []
+  },
+  {
+    "action": "created",
+    "topic": "MSKU100001",
+    "statements": [
+      "call_tool get_container_status({\"container_number\": \"MSKU100001\"})",
+      "get_container_status -> {\n  \"container_number\": \"MSKU100001\",\n  \"status\": \"Released\",\n  \"hazmat\": false,\n  \"container_type\": \"40FT\",\n  \"vessel_name\": \"Ever Glory\",\n  \"carrier_name\": \"Fast Logistics\",\n  \"carrier_status\": \"Active\",\n  \"active_customs_hold\": null\n}",
+      "call_tool get_container_status({\"container_number\": \"MSKU100001\"})"
+    ],
+    "at": 1786185747.1064389
+  },
+  {
+    "action": "conflict_resolved",
+    "topic": "Fast Logistics",
+    "at": 1786185747.1064389,
+    "conflict_type": "value_contradiction",
+    "versions": [
+      {
+        "version": 1,
+        "statements": [
+          "Reminder: Fast Logistics carrier status is Active, license LIC001."
+        ],
+        "status": "superseded"
+      },
+      {
+        "version": 2,
+        "statements": [
+          "get_container_status -> {\n  \"container_number\": \"MSKU100001\",\n  \"status\": \"Released\",\n  \"hazmat\": false,\n  \"container_type\": \"40FT\",\n  \"vessel_name\": \"Ever Glory\",\n  \"carrier_name\": \"Fast Logistics\",\n  \"carrier_status\": \"Active\",\n  \"active_customs_hold\": null\n}",
+          "Update: Fast Logistics carrier status is now Suspended after a safety violation."
+        ],
+        "status": "current"
+      }
+    ],
+    "contradiction_details": [
+      {
+        "type": "direct_contradiction",
+        "old_term": "active",
+        "new_term": "suspended"
+      },
+      {
+        "type": "direct_contradiction",
+        "old_term": "active",
+        "new_term": "released"
+      }
+    ],
+    "resolution_strategy": "most_recent_with_history_retained",
+    "human_review_needed": true
+  },
+  {
+    "action": "run_summary",
+    "ran_at": 1786185747.1064389,
+    "episodes_processed": 5,
+    "topics_touched": [
+      "MSKU100001",
+      "Fast Logistics"
+    ],
+    "facts_expired": []
+  }
+]

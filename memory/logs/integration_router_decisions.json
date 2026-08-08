@@ -1,0 +1,146 @@
+[
+  {
+    "message_preview": "call_tool authenticate({\"badge_code\": \"BADGE-D01\"})",
+    "role": "dispatcher_action",
+    "age": 3,
+    "decision": "promote",
+    "reasoning": "Default: below aging threshold and not clearly transient \u2014 retain for episodic review",
+    "decided_at": 1786185747.103535
+  },
+  {
+    "message_preview": "authenticate -> {\n  \"authenticated\": true,\n  \"name\": \"Dana Ruiz\",\n  \"role\": \"dis",
+    "role": "tool_result",
+    "age": 3,
+    "decision": "promote",
+    "reasoning": "Default: below aging threshold and not clearly transient \u2014 retain for episodic review",
+    "decided_at": 1786185747.1036067
+  },
+  {
+    "message_preview": "call_tool get_container_status({\"container_number\": \"MSKU100004\"})",
+    "role": "dispatcher_action",
+    "age": 3,
+    "decision": "promote",
+    "reasoning": "Default: below aging threshold and not clearly transient \u2014 retain for episodic review",
+    "decided_at": 1786185747.1036355
+  },
+  {
+    "message_preview": "get_container_status -> {\n  \"container_number\": \"MSKU100004\",\n  \"status\": \"On Ho",
+    "role": "tool_result",
+    "age": 3,
+    "decision": "promote",
+    "reasoning": "Contains operationally critical terms: ['hazmat', 'customs', 'hold', 'suspended']",
+    "decided_at": 1786185747.1036737
+  },
+  {
+    "message_preview": "What time does the Ever Glory depart today?",
+    "role": "dispatcher",
+    "age": 3,
+    "decision": "forget",
+    "reasoning": "Time-bound query with no lasting operational value (e.g. ETA/status-right-now question)",
+    "decided_at": 1786185747.1039634
+  },
+  {
+    "message_preview": "Reminder: Fast Logistics carrier status is Active, license LIC001.",
+    "role": "dispatcher",
+    "age": 3,
+    "decision": "promote",
+    "reasoning": "Default: below aging threshold and not clearly transient \u2014 retain for episodic review",
+    "decided_at": 1786185747.1039906
+  },
+  {
+    "message_preview": "call_tool get_vessel_schedule({})",
+    "role": "dispatcher_action",
+    "age": 3,
+    "decision": "promote",
+    "reasoning": "Default: below aging threshold and not clearly transient \u2014 retain for episodic review",
+    "decided_at": 1786185747.104338
+  },
+  {
+    "message_preview": "get_vessel_schedule -> {\n  \"vessels\": [\n    {\n      \"vessel_name\": \"Ocean Star\",",
+    "role": "tool_result",
+    "age": 3,
+    "decision": "promote",
+    "reasoning": "Default: below aging threshold and not clearly transient \u2014 retain for episodic review",
+    "decided_at": 1786185747.1053553
+  },
+  {
+    "message_preview": "call_tool get_container_status({\"container_number\": \"MSKU100001\"})",
+    "role": "dispatcher_action",
+    "age": 3,
+    "decision": "promote",
+    "reasoning": "Default: below aging threshold and not clearly transient \u2014 retain for episodic review",
+    "decided_at": 1786185747.1053898
+  },
+  {
+    "message_preview": "get_container_status -> {\n  \"container_number\": \"MSKU100001\",\n  \"status\": \"Relea",
+    "role": "tool_result",
+    "age": 3,
+    "decision": "promote",
+    "reasoning": "Contains operationally critical terms: ['hazmat', 'customs', 'hold', 'release']",
+    "decided_at": 1786185747.1057858
+  },
+  {
+    "message_preview": "Update: Fast Logistics carrier status is now Suspended after a safety violation.",
+    "role": "dispatcher",
+    "age": 3,
+    "decision": "promote",
+    "reasoning": "Contains operationally critical terms: ['suspended', 'violation']",
+    "decided_at": 1786185747.105817
+  },
+  {
+    "message_preview": "call_tool get_container_status({\"container_number\": \"MSKU100001\"})",
+    "role": "dispatcher_action",
+    "age": 3,
+    "decision": "promote",
+    "reasoning": "Default: below aging threshold and not clearly transient \u2014 retain for episodic review",
+    "decided_at": 1786185747.1062102
+  },
+  {
+    "message_preview": "get_container_status -> {\n  \"container_number\": \"MSKU100001\",\n  \"status\": \"Relea",
+    "role": "tool_result",
+    "age": 3,
+    "decision": "promote",
+    "reasoning": "Contains operationally critical terms: ['hazmat', 'customs', 'hold', 'release']",
+    "decided_at": 1786185747.1089492
+  },
+  {
+    "message_preview": "call_tool get_vessel_schedule({})",
+    "role": "dispatcher_action",
+    "age": 3,
+    "decision": "promote",
+    "reasoning": "Default: below aging threshold and not clearly transient \u2014 retain for episodic review",
+    "decided_at": 1786185848.8938031
+  },
+  {
+    "message_preview": "get_vessel_schedule -> {\n  \"vessels\": [\n    {\n      \"vessel_name\": \"Ocean Star\",",
+    "role": "tool_result",
+    "age": 3,
+    "decision": "promote",
+    "reasoning": "Default: below aging threshold and not clearly transient \u2014 retain for episodic review",
+    "decided_at": 1786185848.8938854
+  },
+  {
+    "message_preview": "What is the purpose of the hazmat handling policy?",
+    "role": "dispatcher_question",
+    "age": 3,
+    "decision": "promote",
+    "reasoning": "Contains operationally critical terms: ['hazmat']",
+    "decided_at": 1786185848.9231136
+  },
+  {
+    "message_preview": "# Hazmat Handling Policy The purpose of this policy is to ensure the safe handli",
+    "role": "policy_answer",
+    "age": 3,
+    "decision": "promote",
+    "reasoning": "Contains operationally critical terms: ['hazmat', 'release']",
+    "decided_at": 1786185848.9232566
+  },
+  {
+    "message_preview": "What does Rule 3 of the hazmat policy say?",
+    "role": "dispatcher_question",
+    "age": 3,
+    "decision": "promote",
+    "reasoning": "Contains operationally critical terms: ['hazmat']",
+    "decided_at": 1786185849.4266748
+  }
+]
